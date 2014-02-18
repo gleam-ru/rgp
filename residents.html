@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="ru-RU">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+	<title>GIS-Dubna</title>
+
+	<link rel="stylesheet" href = "assets/style/reset.css" type="text/css" />
+	<link rel = "stylesheet" href = "assets/style/main.css" type="text/css" />
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="assets/JS/main.js"></script>
+</head>
+
+<body>
+	<div id="main">
+		<div class="topMenu">
+			<ul class="menu">
+				<li><a href="index.html">О проекте</a></li>
+				<li><a href="#">Новости</a></li>
+				<li class="active"><a href="residents.html">Участники</a></li>
+				<li><a href="#">Контакты</a></li>
+				<li><a href="#">Отзывы</a></li>
+				<li id="login"><a href="#">Войти в систему</a></li>
+			</ul>
+		</div>
+
+		<div class="logo">
+			<div class="logoText">
+				ГИС инженерных сетей<br />
+				г. Дубна
+			</div>
+		</div>
+
+		<div class="content">
+			<h1>
+				Участники проекта
+			</h1>
+			<table class="residents">
+				<tr>
+					<td><a href="#"><img src="images/adm.jpg" /></a></td>
+					<td>
+						<h1>ООО «АйДиСистемс»</h1>
+						<p>
+							Генеральный директор: Федорец Андрей Олегович
+						</p>
+						<p>
+							Разработка, реализация и доработка программных продуктов, обеспечивающих электронный документооборот между кредитными организациями и государственными органами, а также оказание услуг по внедрению и обслуживанию разработанных программных продуктов.
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="#"><img src="images/uni.png" /></a></td>
+					<td>
+						<h1>ООО «АйДиСистемс»</h1>
+						<p>
+							Генеральный директор: Федорец Андрей Олегович
+						</p>
+						<p>
+							Разработка, реализация и доработка программных продуктов, обеспечивающих электронный документооборот между кредитными организациями и государственными органами, а также оказание услуг по внедрению и обслуживанию разработанных программных продуктов.
+						</p>
+						<p>
+							Разработка, реализация и доработка программных продуктов, обеспечивающих электронный документооборот между кредитными организациями и государственными органами, а также оказание услуг по внедрению и обслуживанию разработанных программных продуктов.
+						</p>
+						<p>
+							Разработка, реализация и доработка программных продуктов, обеспечивающих электронный документооборот между кредитными организациями и государственными органами, а также оказание услуг по внедрению и обслуживанию разработанных программных продуктов.
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="#"><img src="images/ptogh.png" /></a></td>
+					<td>
+						<h1>ООО «АйДиСистемс»</h1>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="#"><img src="images/tenzor.jpg" /></a></td>
+					<td>
+						<h1>ООО «АйДиСистемс»</h1>
+						<p>
+							Генеральный директор: Федорец Андрей Олегович
+						</p>
+						<p>
+							Разработка, реализация и доработка программных продуктов, обеспечивающих электронный документооборот между кредитными организациями и государственными органами, а также оказание услуг по внедрению и обслуживанию разработанных программных продуктов.
+						</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<form id="auth" name="login" method="post" action="">
+		<h1>Авторизируйтесь для работы в системе:</h1>
+		<input type="hidden" name="login" value="login" />
+		<p><span>Имя пользователя: </span><input id="username" type="text" name="username" /></p>
+		<p><span>Пароль: </span><input id="password" type="password" name="password" /></p>
+		<div>
+			<input id="login_button" type="submit" name="login_button" value="Войти" class="btn" />
+			<input id="cancel_button" type="submit" name="cancel_button" value="Отмена" class="btn" />
+		</div>
+	</form>
+</body>
+</html>
