@@ -189,13 +189,7 @@ ul {margin: 0px 0px 10px 40px; padding: 0px;}
 /**
 * PAGE:residents;
 */
-table td, table td * {
-    vertical-align: top;
-}
-
-.residents img {
-	width: 120px;
-}
+.residents * {vertical-align: top;}
 .residents td:first-child a {
 	padding: 20px;
 	margin: 0 20px 0 0;
@@ -213,16 +207,17 @@ table td, table td * {
 .residents td {
 	border-bottom: solid 40px transparent;
 }
+.residents img {
+	width: 120px;
+}
 .residents h1 {
 	font-size: 17px;
 	font-weight: bold;
-	margin: 10px 0px 0px;
+	margin: 0px 0px;
+	font-size: 17px;
+	font-weight: bold;
 }
 .residents p {
 	font-size: 14px;
 	padding: 4px 0px;
-}
-.residents h1 {
-	font-size: 17px;
-	font-weight: bold;
 }
