@@ -2,7 +2,8 @@ $(document).ready(function() {
 	var auth = $("#auth");
 	var main = $("#main");
 	$("#login").click(function(event) {
-		showAuth(auth, main);
+		window.location.href = 'http://185.15.119.103/mapserver2014/appext/Login.aspx';
+		// showAuth(auth, main);
 	});
 	$("#cancel_button").click(function(event) {
 		event.preventDefault();
