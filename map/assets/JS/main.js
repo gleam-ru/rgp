@@ -11,7 +11,6 @@ var Item = function(x, y, review, layout) {
 	if(!arguments[2]) { //there is no 'review'
 		review = "";
 	}
-	window.q = review;
 	review = review.replace("<a ", "<a onclick=baloonLinkClicked(event) ");
 	this.review = review;
 	
@@ -48,6 +47,7 @@ var Layout = function(name, icon) {
 	return this;
 }
 Layout.prototype.addItem = function(item) {
+	if(!item) return;
 	this.items.push(item);
 }
 Layout.prototype.enable = function() {this.enabled = true;}
@@ -75,11 +75,13 @@ Viewer.prototype.addItem = function(item) {
 		var itemLayoutName = item.layout;
 		var added = false;
 		for(var key in this.layouts) {
-			var currentLayout = this.layouts[key];
-			if(currentLayout.name == itemLayoutName) {
-				currentLayout.addItem(item);
-				added = true;
-				break;
+			if(this.layouts.hasOwnProperty(key)) {
+				var currentLayout = this.layouts[key];
+				if(currentLayout.name == itemLayoutName) {
+					currentLayout.addItem(item);
+					added = true;
+					break;
+				}
 			}
 		}
 		if(!added) { // unknown layout -> default 
@@ -90,6 +92,7 @@ Viewer.prototype.addItem = function(item) {
 
 // adds new layout into viewer
 Viewer.prototype.addLayout = function(layout) {
+	if(!layout) return;
 	this.layouts[layout.name] = layout;
 }
 
@@ -113,23 +116,25 @@ Viewer.prototype.update = function() {
 	});
 
 	for(var key in this.layouts) {
-		var currentLayout = this.layouts[key];
-		if(currentLayout.enabled) {
-			for (var j = 0; j < currentLayout.items.length; j++) {
-				var currentItem = currentLayout.items[j];
-				var placemark = new ymaps.Placemark(
-					[currentItem.pos.x, currentItem.pos.y],
-					{
-            			hintContent: currentItem.name,
-						balloonContent: currentItem.review
-					},
-					{
-						preset: currentLayout.icon
-					}
-				);
-				this.map.geoObjects.add(placemark);
-			};
+		if(this.layouts.hasOwnProperty(key)) {
+			var currentLayout = this.layouts[key];
+			if(currentLayout.enabled) {
+				for (var j = 0; j < currentLayout.items.length; j++) {
+					var currentItem = currentLayout.items[j];
+					var placemark = new ymaps.Placemark(
+						[currentItem.pos.x, currentItem.pos.y],
+						{
+							hintContent: currentItem.name,
+							balloonContent: currentItem.review
+						},
+						{
+							preset: currentLayout.icon
+						}
+					);
+					this.map.geoObjects.add(placemark);
+				};
 
+			}
 		}
 	}
 }
@@ -140,12 +145,14 @@ Viewer.prototype.createLayoutList = function(el) {
 		$("<ul></ul>").appendTo(el);
 		var list = el.find("ul");
 		for(var key in this.layouts) {
-			var currentLayout = this.layouts[key];
-			if(currentLayout.items.length) { // disable empty layouts
-				var enabled = "";
-				if(currentLayout.enabled) 
-					enabled += " checked"
-				$("<li><input type='checkbox'"+enabled+">"+currentLayout.name+"</li>").appendTo(list);
+			if(this.layouts.hasOwnProperty(key)) {
+				var currentLayout = this.layouts[key];
+				if(currentLayout.items.length) { // disable empty layouts
+					var enabled = "";
+					if(currentLayout.enabled) 
+						enabled += " checked"
+					$("<li><input type='checkbox'"+enabled+">"+currentLayout.name+"</li>").appendTo(list);
+				}
 			}
 		}
 		var Map = this;

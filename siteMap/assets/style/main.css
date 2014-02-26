@@ -1,0 +1,153 @@
+html {height: 100%;}
+body {
+	height: 100%;
+	font-family: Arial;
+	font-size: 16px;
+	line-height: 150%;
+
+	background: #fff;
+}
+body a {color: #777;}
+body a:hover {color: #000; text-decoration: none;}
+
+
+
+#main {
+	position: relative;
+	margin: auto;
+	width: 1000px;
+	/*min-height: calc(100% - 50px);*/
+	/*padding-top: 50px;*/
+	min-height: 100%;
+	background: #eee;
+	color: #000;
+	-webkit-box-shadow: 0 0 10px 2px rgba(0,0,0, 0.5);
+	box-shadow: 0 0 10px 2px rgba(0,0,0, 0.5);
+}
+ul {margin: 0px 0px 10px 40px; padding: 0px;}
+
+
+
+/**
+* GLOBAL:content;
+*/
+.content {
+	padding: 0px 10px 10px;
+}
+.content h1 {
+	font-size: 28px;
+	font-weight: normal;
+	margin: 10px 0px 15px;
+}
+
+
+/**
+* GLOBAL:topMenu;
+*/
+.topMenu {
+	z-index: 100;
+	zoom: 1;
+	width: auto;
+	background: #000000;
+	padding: 5px 10px 10px;
+	position: fixed;
+	top: 0px;
+	width: 980px;
+	-webkit-box-shadow: 0 3px 3px 0px rgba(0,0,0,1.0);
+	box-shadow: 0 3px 3px 0px rgba(0,0,0,1.0);
+}
+.topMenu:before {
+	content: '';
+	display: block;
+}
+.topMenu:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.topMenu ul {
+	list-style-type: none;
+	position: relative;
+	display: block;
+	font-size: 16px;
+	font-family: Tahoma, Verdana, Helvetica, Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #7ab900;
+	zoom: 1;
+}
+.topMenu ul:before {
+	content: '';
+	display: block;
+}
+.topMenu ul:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.topMenu li {
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+.topMenu li a {
+	float: left;
+	color: #A79787;
+	text-decoration: none;
+	height: 35px;
+	line-height: 35px;
+	vertical-align: middle;
+	padding: 0px 15px 0;
+	font-weight: normal;
+}
+.topMenu li:hover,
+.topMenu .active {
+	text-decoration: none;
+	border-bottom: 2px solid #7ab900;
+}
+.topMenu li:hover a {
+	color: #fff;
+}
+.topMenu .active a {
+	color: #fff;
+}
+#login a:hover {color: #fff;}
+#login a {
+	font-weight: bold;
+	color: #000;
+}
+#login {
+	float: right;
+	background: #7ab900;
+	/*border-bottom: 2px solid #7ab900;*/
+}
+
+
+
+
+
+#viewer {
+	width: 100%;
+	height: 500px;
+}
+
+#layoutList {margin-bottom: 10px;}
+#layoutList ul {margin: 0px; padding-left: 20px;}
+#layoutList li {list-style: none;}
+
+#ytLayer {
+	min-width: 640px;
+	min-height: 360px;
+	position: fixed;
+	z-index: 10;
+	top: 200px;
+	left: calc(50% - 320px);
+	display: none;
+}
+
+
+/**
+* GLOBAL:anti-copyrights;
+*/
+.ymaps-copyrights-legend, .ymaps-copyrights-logo {display: none !important;}
