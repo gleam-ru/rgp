@@ -93,23 +93,18 @@ function getNames(tree) {
 
 function getPath(name, tree) {
 	if(tree) {
-		var namesList = [];
-		if(tree.name) {
-			if(tree.name == name) {
-				return [name];
-			}
-			else {
-				for(var key in tree) if(tree.hasOwnProperty(key)) {
-					var q = getPath(name, tree[key]);
-					if(q)
-						return namesList.concat(q);
-				}
+		if(tree.name == name) {
+			return [name];
+		}
+		else {
+			if(tree.name)
+			for(var key in tree) if(tree.hasOwnProperty(key)) {
+				var path = getPath(name, tree[key]);
+				if(path) return [tree.name].concat(path);
 			}
 		}
 	}
-	else {
-		return undefined;
-	}
+	return undefined;
 }
 
 $(document).ready(function() {
