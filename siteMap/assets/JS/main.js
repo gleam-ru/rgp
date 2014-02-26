@@ -153,7 +153,23 @@ function getNames(tree) {
 		if(tree.name) {
 			namesList.push(tree.name);
 			for (var key in tree) if(tree.hasOwnProperty(key)) {
-					namesList.push(getNames(tree[key]));
+				namesList = namesList.concat(getNames(tree[key]));
+			}
+		}
+		return namesList;
+	}
+	else {
+		return undefined;
+	}
+}
+
+function getPath(name, tree) {
+	if(tree) {
+		var namesList = [];
+		if(tree.name == name) {
+			namesList.push(tree.name);
+			for (var key in tree) if(tree.hasOwnProperty(key)) {
+				namesList = namesList.concat(getPath(name, tree[key]));
 			}
 		}
 		return namesList;
