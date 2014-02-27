@@ -504,8 +504,10 @@ $(document).ready(function() {
 		}));
 
 
-		for (var i = testItems.length - 1; i >= 0; i--)
+		for (var i = testItems.length - 1; i >= 0; i--) {
 			map.addItem(testItems[i]);
+			if(testItems[i].name == "Важный объект") testItems[i].activate();
+		}
 		map.update();
 		map.createView();
 	});
