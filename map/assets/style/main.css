@@ -219,6 +219,24 @@ ul.accordion>li .bgDescription{
 	-webkit-border-radius: 0 0 50px 50px;
 }
 
+#itemPhotosWrapper {
+	width: 600px;
+	overflow-x: auto;
+}
+#itemPhotos {
+	list-style: none;
+	height: 150px;
+	overflow-y: hidden;
+	overflow-x: scroll;
+	width: 600px;
+}
+#itemPhotos li {
+	display: inline-block;
+	white-space: nowrap;
+}
+#itemPhotos li img {
+	height: 150px;
+}
 
 /**
 * GLOBAL:anti-copyrights;

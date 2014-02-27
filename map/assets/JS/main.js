@@ -9,8 +9,16 @@ var Item = function(obj) {
 	
 	this.layout = obj.layout || "default";
 
-	// this.images = obj.images || ['1', '2', '3'];
-	this.images = obj.images || ["", "<img src='images/noImage.png' />"];
+	this.images = ["", ""];
+	// this.images = [];
+	if(obj.images) {
+		for(var i = 0; i < obj.images.length; i++) {
+			this.images.push("<img src='images/"+obj.images[i]+"' />");
+		}
+	}
+	else {
+		this.images.push("<img src='images/noImage.png' />");
+	}
 
 	this.active = false;
 
@@ -144,14 +152,15 @@ Viewer.prototype.createItemsUL = function(layout) {
 						ul += currentItem.name;
 					ul += "</span>"
 				ul += "</h1>";
-				for(var i = 0; i < currentItem.images.length; i++) {
-					var currentItemImage = currentItem.images[i];
+				ul += "<div id='itemPhotosWrapper'>";
 					ul += "<ul id='itemPhotos'>";
-						ul += "<li>"
-							ul += currentItemImage;
-						ul += "</li>"
+						for(var i = 0; i < currentItem.images.length; i++) {
+							ul += "<li>"
+								ul += currentItem.images[i];
+							ul += "</li>"
+						}
 					ul += "</ul>"
-				}
+				ul += "</div>"
 				ul += currentItem.review;
 			ul += "</div>";
 		ul += "</li>"
@@ -388,7 +397,14 @@ $(document).ready(function() {
 				"<p>В отличие от пылевого и ионного хвостов, противостояние однородно дает азимут, а оценить проницательную способность вашего телескопа поможет следующая формула</p>" +
 				"<p>Небесная сфера традиционно меняет вращательный маятник Фуко.</p>" +
 				"<p><a href='http://www.youtube.com/watch?v=sZwmo_2DOz0'>Видео</a></p>",
-			layout: "green"
+			layout: "green",
+			images: [
+				"cars.jpg",
+				"panda.jpg",
+				"toys.jpg",
+				"up.jpg",
+				"walle.jpg"
+			]
 		}));
 
 		for (var i = testItems.length - 1; i >= 0; i--) {
