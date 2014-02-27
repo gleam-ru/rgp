@@ -225,7 +225,7 @@ ul.accordion>li .bgDescription{
 }
 #itemPhotos {
 	list-style: none;
-	height: 150px;
+	height: 165px;
 	overflow-y: hidden;
 	overflow-x: scroll;
 	width: 600px;

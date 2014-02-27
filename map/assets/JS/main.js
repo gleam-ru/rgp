@@ -17,7 +17,7 @@ var Item = function(obj) {
 		}
 	}
 	else {
-		this.images.push("<img src='images/noImage.png' />");
+		this.images.push("<img src='images/noImage.jpg' />");
 	}
 
 	this.active = false;
