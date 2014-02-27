@@ -92,16 +92,14 @@ function getNames(tree) {
 }
 
 function getPath(name, tree) {
-	if(tree) {
-		if(tree.name == name) {
-			return [name];
-		}
-		else {
-			if(tree.name)
-			for(var key in tree) if(tree.hasOwnProperty(key)) {
-				var path = getPath(name, tree[key]);
-				if(path) return [tree.name].concat(path);
-			}
+	if(tree.name == name) {
+		return [name];
+	}
+	else {
+		if(tree.name)
+		for(var key in tree) if(tree.hasOwnProperty(key)) {
+			var path = getPath(name, tree[key]);
+			if(path) return [tree.name].concat(path);
 		}
 	}
 	return undefined;

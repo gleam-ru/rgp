@@ -5,22 +5,27 @@
 	<title>Map-Viewer</title>
 
 	<link rel="stylesheet" href="assets/style/reset.css" type="text/css" />
-	<link rel = "stylesheet" href="assets/style/main.css" type="text/css" />
+	<link rel="stylesheet" href="assets/style/main.css" type="text/css" />
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src = "http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+	<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 	<script src="assets/JS/main.js"></script>
 </head>
 
 <body>
-	<div id="main">
-		<div id="viewer"></div>
-		<div class="content">
-			<div id="layoutList">
-				<h1>Отображаемые категории</h1>
-			</div>
-		</div>
+	<h1 id="mainHeader">Туристический портал города Дубны</h1>
+	<!-- <div id="initialMessage"></div> -->
+
+	<div id="viewer"></div>
+
+	<div id="fullReview">
+		<div class="content"></div>
+		<button onclick="addItemOnMap(this)">Добавить на карту</button>
+		<button onclick="removeItemFromMap(this)">Убрать с карты</button>
 	</div>
+
+	<div id="shadow"></div>
 	<div id="ytLayer"></div>
+
 </body>
 </html>

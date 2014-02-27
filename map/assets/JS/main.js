@@ -1,32 +1,23 @@
-var Item = function(x, y, review, layout) {
-	if(!arguments[0] || !arguments[1]) { //there is no 'position'
-		console.error('trying to init ITEM without position');
-		pos = {x: 0, y: 0};
-	}
-	else {
-		pos = {x: x, y: y};
-	}
-	this.pos = pos;
+var Item = function(obj) {
+	this.pos = {x: obj.pos[0]||0, y: obj.pos[1]||0};
 
-	if(!arguments[2]) { //there is no 'review'
-		review = "";
-	}
+	this.name = obj.name || "Noname";
+
+	review = obj.review || "";
 	review = review.replace("<a ", "<a onclick=baloonLinkClicked(event) ");
 	this.review = review;
 	
-	var matches = review.match(/[^<h1>]+(?=<\/h1>)/g); // first h1.text() is popup
-	if(matches)
-		this.name = matches[0];
-	else
-		this.name = "";
+	this.layout = obj.layout || "default";
 
-	if(!arguments[3]) { // there is no 'layout'
-		layout = "default";
-	}
-	this.layout = layout;
+	// this.images = obj.images || ['1', '2', '3'];
+	this.images = obj.images || ["", "<img src='images/noImage.png' />"];
+
+	this.active = false;
 
 	return this;
 }
+Item.prototype.activate = function() {this.active = true;}
+Item.prototype.disable = function() {this.active = false;}
 
 
 
@@ -35,7 +26,6 @@ var Layout = function(name, icon) {
 		name = "default";
 	}
 	this.name = name;
-	this.enabled = true;
 
 	if(!arguments[1]) {
 		icon = 'twirl#greyDotIcon';
@@ -50,9 +40,7 @@ Layout.prototype.addItem = function(item) {
 	if(!item) return;
 	this.items.push(item);
 }
-Layout.prototype.enable = function() {this.enabled = true;}
-Layout.prototype.disable = function() {this.enabled = false;}
-// TODO: redraw every layout - bad idea, rly...
+// TODO: redraw EACH layout - bad idea, rly...
 Layout.prototype.show = function() {};
 Layout.prototype.hide = function() {};
 
@@ -118,9 +106,9 @@ Viewer.prototype.update = function() {
 	for(var key in this.layouts) {
 		if(this.layouts.hasOwnProperty(key)) {
 			var currentLayout = this.layouts[key];
-			if(currentLayout.enabled) {
-				for (var j = 0; j < currentLayout.items.length; j++) {
-					var currentItem = currentLayout.items[j];
+			for (var j = 0; j < currentLayout.items.length; j++) {
+				var currentItem = currentLayout.items[j];
+				if(currentItem.active) {
 					var placemark = new ymaps.Placemark(
 						[currentItem.pos.x, currentItem.pos.y],
 						{
@@ -132,43 +120,183 @@ Viewer.prototype.update = function() {
 						}
 					);
 					this.map.geoObjects.add(placemark);
-				};
-
-			}
+				}
+			};
 		}
 	}
 }
 
-// creates HTML-list of non-empty layouts
-Viewer.prototype.createLayoutList = function(el) {
-	if(el) {
-		$("<ul></ul>").appendTo(el);
-		var list = el.find("ul");
-		for(var key in this.layouts) {
-			if(this.layouts.hasOwnProperty(key)) {
-				var currentLayout = this.layouts[key];
-				if(currentLayout.items.length) { // disable empty layouts
-					var enabled = "";
-					if(currentLayout.enabled) 
-						enabled += " checked"
-					$("<li><input type='checkbox'"+enabled+">"+currentLayout.name+"</li>").appendTo(list);
+Viewer.prototype.createItemsUL = function(layout) {
+	var ul = "";
+	ul += "<ul>"
+	for(var i = 0; i < layout.items.length; i++) {
+		window.currentItem = layout.items[i];
+		ul += "<li>"
+			ul += "<h1 onclick=itemClicked(this)>";
+				ul += currentItem.name
+			ul += "</h1>";
+			ul += "<div class='invisible'>";
+				ul += "<h1>";
+					ul += "Категория: <span id='layoutName'>"
+						ul += layout.name;
+					ul += "</span><br />"
+					ul += "Объект: <span id='itemName'>"
+						ul += currentItem.name;
+					ul += "</span>"
+				ul += "</h1>";
+				for(var i = 0; i < currentItem.images.length; i++) {
+					var currentItemImage = currentItem.images[i];
+					ul += "<ul id='itemPhotos'>";
+						ul += "<li>"
+							ul += currentItemImage;
+						ul += "</li>"
+					ul += "</ul>"
 				}
-			}
+				ul += currentItem.review;
+			ul += "</div>";
+		ul += "</li>"
+	}
+	ul += "</ul>"
+	return ul;
+}
+Viewer.prototype.createLayoutsUL = function() {
+	var ul = "";
+	ul += "<ul class='accordion'>"
+	for(var key in this.layouts) if(this.layouts.hasOwnProperty(key)) {
+		var currentLayout = this.layouts[key];
+		if(currentLayout.items.length) { // disable empty layouts
+				ul += "<li>"
+					ul += "<div class='heading'>";
+						ul += currentLayout.name;
+					ul += "</div>";
+					ul += "<div class='bgDescription'></div>"; // accordion wants it
+					ul += "<div class='description'>";
+					ul += "<h2>"
+						ul += currentLayout.name;
+					ul += "</h2>"
+					ul += this.createItemsUL(currentLayout);
+				ul += "</li>"
+			ul += "</div>";
 		}
-		var Map = this;
-		list.find("input").each(function() {
-			$(this).click(function() {
-				var layoutName  = $(this).parent().text();
-				if(Map.layouts[layoutName].enabled) 
-					Map.layouts[layoutName].disable();
-				else
-					Map.layouts[layoutName].enable();
-				Map.update();
-			});
+	}
+	ul += "</ul>"
+	return ul;
+}
+Viewer.prototype.createView = function() {
+	window.ul = this.createLayoutsUL();
+	$('body').append($(ul));
+	accordionInit();
+}
+
+Viewer.prototype.activateItem = function(layoutName, itemName) {
+	var currentLayout = this.layouts[layoutName];
+	if(currentLayout) {
+		for(var i = 0; i < currentLayout.items.length; i++) {
+			var currentItem = currentLayout.items[i];
+			if(currentItem.name == itemName) currentItem.activate();
+		}
+	}
+	this.update();
+}
+Viewer.prototype.disableItem = function(layoutName, itemName) {
+	var currentLayout = this.layouts[layoutName];
+	if(currentLayout) {
+		for(var i = 0; i < currentLayout.items.length; i++) {
+			var currentItem = currentLayout.items[i];
+			if(currentItem.name == itemName) currentItem.disable();
+		}
+	}
+	this.update();
+}
+
+
+
+
+
+
+
+
+
+
+
+function accordionInit() {
+    $(function() {
+    	$('.accordion').click(function(event) {
+    		event.stopPropagation();
+    	});
+        $('.accordion > li').hover(
+            function () {
+                var $this = $(this);
+                $this.stop().animate({'width':'480px'},300);
+                $('.heading',$this).stop(true,true).fadeOut();
+                $('.bgDescription',$this).stop(true,true).slideDown(300);
+                $('.description',$this).stop(true,true).fadeIn();
+            },
+            function () {
+                var $this = $(this);
+                $this.stop().animate({'width':'115px'},500);
+                $('.heading',$this).stop(true,true).fadeIn();
+                $('.description',$this).stop(true,true).fadeOut(250);
+                $('.bgDescription',$this).stop(true,true).slideUp(350);
+            }
+        );
+    });
+}
+
+function createCinemaView(ytLink) {
+	var body = $("body");
+	if($("#shadow")) {
+		$("#shadow").css("display", "block");
+		$("#shadow").unbind().click(function(event) {
+			event.stopPropagation();
+			destroyCinemaView();
 		});
 	}
+	var ytLayer = $("#ytLayer");
+	if(ytLayer) {
+		ytLayer.css("z-index", "40");
+		var ytVideoId = ytLink.match(/\?v=([\w\d]+)/gi)[0].substring(3);
+		var ytFrame = ""+
+			"<iframe " +
+				"width='640' "+
+				"height='360' "+
+				"src='http://www.youtube.com/embed/"+ytVideoId+"?"+
+				"&autoplay=1"+
+			"'><iframe>"
+		$(ytFrame).appendTo(ytLayer);
+		ytLayer.css("display", "block");
+	}
+	else {
+		console.error("unable to show YT video - there is no '#ytLayer' containter");
+	}
 }
 
+function destroyCinemaView() {
+	$("#ytLayer").css("display", "none");
+	$("#ytLayer").empty();
+	$("#shadow").css("display", "none");
+}
+
+function itemClicked(el) {
+	showFullReview($(el).parent().find($('.invisible')));
+}
+
+function showFullReview(el) {
+	$('#fullReview .content').html($(el).html());
+	$("#fullReview").css("display", "block");
+	$("#fullReview").click(function(event) {
+		event.stopPropagation();
+	});
+	// добавить кнопку активации айтема
+}
+function hideFullReview() {
+	$("#fullReview").css("display", "none");
+}
+
+function bodyClicked() {
+	hideFullReview();
+	destroyCinemaView();
+}
 
 
 // creates cinema-view or simply leaves the page
@@ -184,47 +312,34 @@ function baloonLinkClicked(event) {
 	}
 }
 
-function createCinemaView(ytLink) {
-	var main = $("#main");
-	if(main) {
-		var ytLayer = $("#ytLayer");
-		if(ytLayer) {
-			var ytVideoId = ytLink.match(/\?v=([\w\d]+)/gi)[0].substring(3);
-			var ytFrame = ""+
-				"<iframe " +
-					"width='640' "+
-					"height='360' "+
-					"src='http://www.youtube.com/embed/"+ytVideoId+"?"+
-					"&autoplay=1"+
-				"'><iframe>"
-			$(ytFrame).appendTo(ytLayer);
-			ytLayer.css("display", "block");
-			main.css('opacity', '0.2');
-			$('body').unbind().click(function() {
-				destroyCinemaView();
-			});
-		}
-		else {
-			console.error("unable to show YT video - there is no '#ytLayer' containter");
-		}
-	}
+function addItemOnMap(el) {
+	// TODO: как связать эту функцию с Viewer?
+	layoutName = $(el).parent().find("#layoutName").text();
+	itemName = $(el).parent().find("#itemName").text();
+	map.activateItem(layoutName, itemName);
+}
+function removeItemFromMap(el) {
+	// TODO: как связать эту функцию с Viewer?
+	layoutName = $(el).parent().find("#layoutName").text();
+	itemName = $(el).parent().find("#itemName").text();
+	map.disableItem(layoutName, itemName);
 }
 
-function destroyCinemaView() {
-	var main = $("#main");
-	if(main) {
-		main.css('opacity', '1');
-		$("#ytLayer").css("display", "none");
-		$("#ytLayer").empty();
-		main.unbind();
-	}
-}
+
+
+
+
+
+
+
 
 
 
 
 
 $(document).ready(function() {
+	$("body").bind('click', bodyClicked);
+
 	ymaps.ready(function(){
 		window.map = new Viewer($("#viewer"));
 		map.init();
@@ -235,25 +350,52 @@ $(document).ready(function() {
 		map.addLayout(new Layout("blue", "twirl#blueDotIcon"));
 
 		var testItems = [];
-		testItems.push(new Item(56.742679, 37.2332357, "review1", "red"));
-		testItems.push(new Item(56.742679, 37.2832357, "review2", "blue"));
-		testItems.push(new Item(56.742679, 37.2732357, "review3", "blue"));
-		testItems.push(new Item(56.742679, 37.2632357, "review4", "blue"));
-		testItems.push(new Item(
-			56.732679, 37.2632357,
-			"<h1>Заголовок</h1>" +
-			"<p>Радиант, в первом приближении, недоступно решает метеорит, тем не менее, Дон Еманс включил в список всего 82-е Великие Кометы.</p>" +
-			"<p>В отличие от пылевого и ионного хвостов, противостояние однородно дает азимут, а оценить проницательную способность вашего телескопа поможет следующая формула</p>" +
-			"<p>Небесная сфера традиционно меняет вращательный маятник Фуко.</p>" +
-			"<p><a href='http://www.youtube.com/watch?v=sZwmo_2DOz0'>Подробное описание</a></p>" +
-			"",
-			"green"
-			));
+		testItems.push(new Item({
+			pos: [56.742679, 37.2332357],
+			name: "Красный 1",
+			review: "review_1",
+			layout: "red"
+		}));
+		testItems.push(new Item({
+			pos: [56.742679, 37.2932357],
+			name: "Красный 2",
+			review: "review_2",
+			layout: "red"
+		}));
+		testItems.push(new Item({
+			pos: [56.742679, 37.2832357],
+			name: "Синий 1",
+			review: "review_3",
+			layout: "blue"
+		}));
+		testItems.push(new Item({
+			pos: [56.742679, 37.2732357],
+			name: "Синий 2",
+			review: "review_4",
+			layout: "blue"
+		}));
+		testItems.push(new Item({
+			pos: [56.742679, 37.2632357],
+			name: "Синий 3",
+			review: "review_5",
+			layout: "blue"
+		}));
+		testItems.push(new Item({
+			pos: [56.732679, 37.2632357],
+			name: "Важный объект",
+			review: "" +
+				"<p>Радиант, в первом приближении, недоступно решает метеорит, тем не менее, Дон Еманс включил в список всего 82-е Великие Кометы.</p>" +
+				"<p>В отличие от пылевого и ионного хвостов, противостояние однородно дает азимут, а оценить проницательную способность вашего телескопа поможет следующая формула</p>" +
+				"<p>Небесная сфера традиционно меняет вращательный маятник Фуко.</p>" +
+				"<p><a href='http://www.youtube.com/watch?v=sZwmo_2DOz0'>Видео</a></p>",
+			layout: "green"
+		}));
+
 		for (var i = testItems.length - 1; i >= 0; i--) {
 			map.addItem(testItems[i]);
 		};
 
 		map.update();
-		map.createLayoutList($("#layoutList"));
+		map.createView();
 	});
 });
