@@ -8,7 +8,8 @@
 	<link rel="stylesheet" href="assets/style/main.css" type="text/css" />
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+	<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU"></script>
+	<script src="assets/JS/jquery.flexslider.js"></script>
 	<script src="assets/JS/main.js"></script>
 </head>
 
@@ -18,14 +19,16 @@
 
 	<div id="viewer"></div>
 
+	<!-- <button id="createRoute" onclick="createRoute()">Создать маршрут</button> -->
+
+	<!-- invisible by-default layers -->
 	<div id="fullReview">
 		<div class="content"></div>
 		<button onclick="addItemOnMap(this)">Добавить на карту</button>
 		<button onclick="removeItemFromMap(this)">Убрать с карты</button>
 	</div>
 
-	<div id="shadow"></div>
 	<div id="ytLayer"></div>
-
+	<div id="shadow"></div>
 </body>
 </html>
