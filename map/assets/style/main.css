@@ -301,13 +301,21 @@ button {
 	top: 0px;
 	left: 0px;
 	/*width: 350px;*/
+	min-width: 250px;
+	max-width: 400px;
 	padding-right: 40px;
 	height: 100%;
 	background: rgba(255,255,255, 0.7);
 	overflow: auto;
 }
 #categories  input, .itemName, .layoutName {
-	display: inline-block;
+	padding-left: 20px;
+	/*display: inline-block;*/
+	/*float: left;*/
+}
+#categories input {
+	float: left;
+	margin-top: 8px;
 }
 #categories li {
 	list-style: none;
@@ -319,12 +327,6 @@ button {
 	/*font-weight: bold;*/
 	font-size: 26px;
 }
-#categories .layoutsContainer>li>input {
-	margin-top: -5px;
-}
-#categories .itemsContainer>li>input {
-	margin-top: -2px;
-}
 .opened .expand {
 	background: url('images/toggle.png') 0px 0px;
 }
@@ -335,7 +337,8 @@ button {
 	margin-bottom: -6px;
 	width: 30px;
     height: 30px;
-    display: inline-block;
+    /*display: inline-block;*/
+    float: left;
 }
 .itemsContainer {
 	display: none;
