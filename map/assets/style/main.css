@@ -37,7 +37,7 @@ button {
 	/**
 	* GLOBAL:accordion;
 	*/
-		ul.accordion{
+/*		ul.accordion{
 			z-index: 35;
 		    list-style:none;   
 		    position:absolute;
@@ -47,9 +47,10 @@ button {
 		    font-size: 16px;
 		    font-style: italic;
 		    line-height: 1.5em;
+		    width: 10000px;
 		}
 		ul.accordion>li{
-		    float:right;
+		    float:left;
 		    width:125px;
 		    height:200px;
 		    display:block;
@@ -82,8 +83,9 @@ button {
 		    text-shadow:-1px -1px 1px #ccc;
 		}
 		ul.accordion>li .description{
+		    overflow: auto;
 		    position:absolute;
-		    width:480px;
+		    width:calc(100% - 5px);
 		    height:175px;
 		    bottom:0px;
 		    left:0px;
@@ -142,8 +144,8 @@ button {
 		.description>ul li {
 			font-size: 20px;
 			display: inline-block;
-			width: 32%;
-			/*width: 40%;*/
+			padding-right: 15px;
+			width: calc(33% - 15px);
 			line-height: 30px;
 			vertical-align: middle;
 		}
@@ -152,12 +154,11 @@ button {
 			font-size: 18px;
 			font-weight: normal;
 		    font-style: normal;
+		    line-height: 100%;
+		    margin-bottom: 15px;
 
 		}
-		.description>ul li h1:hover {color: #000; cursor: pointer;}
-		ul.accordion>li {
-	    	/*background-image:url(../../images/layouts/1.jpg);*/
-	    }
+		.description>ul li h1:hover {color: #000; cursor: pointer;}*/
 
 
 
@@ -289,3 +290,54 @@ button {
 	z-index: 100;
 }
 
+
+/*#viewer {display: none;}*/
+
+
+
+
+#categories {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	/*width: 350px;*/
+	padding-right: 40px;
+	height: 100%;
+	background: rgba(255,255,255, 0.7);
+	overflow: auto;
+}
+#categories  input, .itemName, .layoutName {
+	display: inline-block;
+}
+#categories li {
+	list-style: none;
+	line-height: 30px;
+	vertical-align: middle;
+}
+
+.layoutName {
+	/*font-weight: bold;*/
+	font-size: 26px;
+}
+#categories .layoutsContainer>li>input {
+	margin-top: -5px;
+}
+#categories .itemsContainer>li>input {
+	margin-top: -2px;
+}
+.opened .expand {
+	background: url('images/toggle.png') 0px 0px;
+}
+.expand {
+	cursor: pointer;
+	background: url('images/toggle.png') 30px 30px;
+	margin-left: 5px;
+	margin-bottom: -6px;
+	width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+.itemsContainer {
+	display: none;
+	padding-left: 35px;
+}
