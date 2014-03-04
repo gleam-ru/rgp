@@ -50,21 +50,20 @@ Controller.prototype.addItem = function(item) {
 // active items are shown on the map
 // [[category, item], [..., ...]]
 Controller.prototype.setItemsState = function(categoryItemList, state) {
-	console.log(categoryItemList);
-	state = state || true;
+	state = (typeof(state) === "undefined") ? true : state;
 	if(!categoryItemList) {
 		console.error('unable to activate items');
 		return;
 	}
 	for(var i = 0; i < categoryItemList.length; i++) {
 		var currentCategory = categoryItemList[i][0];
-		var currentItem = categoryItemList[i][0];
+		var currentItem = categoryItemList[i][1];
 		if(typeof(currentCategory.name) === "undefined") {
 			// it is only NAMES of category and item...
 			currentCategory = this.model.categories[currentCategory];
 			for(var ii = 0; ii < currentCategory.items.length; ii++) {
-				if(currentCategory.items[i].name == currentItem) {
-					currentItem = currentCategory.items[i];
+				if(currentCategory.items[ii].name == currentItem) {
+					currentItem = currentCategory.items[ii];
 					break;
 				}
 			}

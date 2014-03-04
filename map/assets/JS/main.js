@@ -507,25 +507,6 @@ $(document).ready(function() {
 		    itemsNode.parent().toggleClass("opened");
 		    itemsNode.toggle('fast', function() {});
 		});
-
-		$(".categoriesContainer>li>input").change(function() {
-			var valToSet = $(this).is(':checked');
-			$(this).parent().find(".itemsContainer>li>input").each(function() {
-				$(this).prop('checked', valToSet);
-				$(this).change();
-			});
-		});
-
-		$(".itemsContainer>li>input").change(function() {
-			var itemCheckbox = $(this);
-			var itemName = itemCheckbox.parent().find('.itemName').text();
-			var CategoryName = itemCheckbox.parent().parent().parent().find('.CategoryName').text();
-			// TODO:debouncer !!!!!!! VERY IMPORTANT !!!!!!!
-			if(itemCheckbox.is(":checked"))
-				map.activateItem(CategoryName, itemName);
-			else
-				map.disableItem(CategoryName, itemName);
-		});
 	});
 });
 

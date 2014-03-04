@@ -13,6 +13,16 @@ var View = function(model, controller) {
 
 	this.map = this.createMap();
 
+	this.legalBodyClick = false;
+	var currentView = this;
+	$('body').click(function() {
+		if(!currentView.legalBodyClick) {
+			currentView.hideFullReview();
+			// destroyCinemaView();
+		}
+		currentView.legalBodyClick = false;
+	});
+
 	return this;
 }
 
@@ -48,16 +58,49 @@ View.prototype.createView = function() {
 	$('#categories').append($(ul));
 	// FUNC:
 	$('.itemClickableName').click(function(event) {
-		// console.error('qq');
+		// show full review on click on item name in list
 		event.stopPropagation();
 		var el = $(event.target);
-		// console.log(el);
-
 		var itemName = el.data('item');
 		var categoryName = el.data('category');
-		// console.log(itemName, categoryName);
-
 		currentView.showFullReview(categoryName, itemName);
+	});
+	// FUNC:
+	$(".categoriesContainer>li>input").change(function() {
+		// show all items of category
+		var categoryCheckbox = $(this);
+		var active = categoryCheckbox.is(":checked") ? true : false;
+
+		categoryCheckbox.parent().find(".itemsContainer>li>input").each(function() {
+			$(this).prop('checked', active);
+		});
+
+		var categoryName = categoryCheckbox.parent().find(".categoryName").text();
+		var currentCategory = currentView.model.categories[categoryName];
+		var itemsList = currentCategory.items;
+		var categoryItemList = [];
+		for(var i = 0; i < itemsList.length; i++) {
+			categoryItemList.push([currentCategory, itemsList[i]]);
+		}
+		currentView.controller.setItemsState(categoryItemList, active);
+
+		currentView.update();
+	});
+	// FUNC:
+	$(".itemsContainer>li>input").change(function() {
+		// show activated item
+		var itemCheckbox = $(this);
+		var active = itemCheckbox.is(":checked") ? true : false;
+		if(!active) {
+			itemCheckbox.parent().parent().parent().find("input[type=checkbox]").prop('checked', false);
+		}
+
+		var itemName = itemCheckbox.parent().find(".itemName").text();
+		var categoryName = itemCheckbox.parent().parent().parent().find(".categoryName").text();
+
+		currentView.controller.setItemsState([[categoryName, itemName]], active);
+
+		currentView.update();
 	});
 }
 View.prototype.createCategoriesUL = function() {
@@ -134,7 +177,7 @@ View.prototype.update = function() {
 				);
 				placemark.events.add('click', placemarkClicked, {item:currentItem, category:currentCategory})
 				function placemarkClicked() {
-				    window.legalBodyClick = true;
+				    currentView.legalBodyClick = true;
 				    currentView.showFullReview(this.category, this.item);
 				}
 				this.map.geoObjects.add(placemark);
@@ -144,12 +187,10 @@ View.prototype.update = function() {
 }
 
 View.prototype.hideFullReview = function() {
-	console.error('qq');
 	$("#fullReview").css("display", "none");
 }
 View.prototype.showFullReview = function(category, item) {
-	// console.error('qq');
-
+	currentView = this;
 	if(!category || !item) {
 		console.error('unknown item or category');
 		return;
@@ -201,10 +242,34 @@ View.prototype.showFullReview = function(category, item) {
 		$('body').append(fullReviewElem);
 
 		// FUNC:
-		$('.addItemOnMap').click(currentView.addItemOnMap(event));
-		// FUNC:
-		$('.removeItemFromMap').click(currentView.removeItemFromMap(event));
+		$('.addItemOnMap').click(function(event) {
+			// TODO:
+			// тупой сет чект
+			event.stopPropagation();
 
+			var el = event.target;
+			var categoryName = $(el).parent().find("#categoryName").text();
+			var itemName = $(el).parent().find("#itemName").text();
+
+			currentView.controller.setItemsState([[categoryName, itemName]], true);
+			currentView.hideFullReview();
+			currentView.update();
+
+		});
+		// FUNC:
+		$('.removeItemFromMap').click(function(event) {
+			// TODO:
+			// тупой сет анчект
+			event.stopPropagation();
+
+			var el = event.target;
+			var categoryName = $(el).parent().find("#categoryName").text();
+			var itemName = $(el).parent().find("#itemName").text();
+
+			currentView.controller.setItemsState([[categoryName, itemName]], false);
+			currentView.hideFullReview();
+			currentView.update();
+		});
 	}
 
 	$('#fullReview .content').html(review);
@@ -216,30 +281,6 @@ View.prototype.showFullReview = function(category, item) {
 
 	flexSliderInit();
 }
-
-View.prototype.addItemOnMap = function(event) {
-	event.stopPropagation();
-
-	var el = event.target;
-	var categoryName = $(el).parent().find("#categoryName").text();
-	var itemName = $(el).parent().find("#itemName").text();
-
-	// this.controller.setItemsState([[categoryName, itemName]], true);
-	this.hideFullReview();
-	this.update();
-}
-View.prototype.removeItemFromMap = function(event) {
-	event.stopPropagation();
-
-	var el = event.target;
-	var categoryName = $(el).parent().find("#categoryName").text();
-	var itemName = $(el).parent().find("#itemName").text();
-
-	// this.controller.setItemsState([[categoryName, itemName]], false);
-	this.hideFullReview();
-	this.update();
-}
-
 
 function flexSliderInit() {
 	$('.flex-control-nav').remove();
