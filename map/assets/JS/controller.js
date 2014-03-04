@@ -74,17 +74,6 @@ var Controller = function(model) {
 
 			this.addItem(new Item({
 				category: "Музеи",
-				pos: [56.744483, 37.19355], 
-				name: "Музей замка",
-				review: "" +
-					"<p>Амбициозный туристический проект на территории г. Дубна. Планировался интерактивный музей деревянного зодчества под открытым небом, гостиница на 70 мест, музей верхневолжского быта и пр. инфраструктура. В настоящее время представляет из себя брошенную стройплощадку, огороженную высоким забором.</p>",
-				images: [ 
-					"muzei_zamka.png"
-				]
-			}));
-
-			this.addItem(new Item({
-				category: "Музеи",
 				pos: [56.743891, 37.17442],
 				name: "Музей замка",
 				review: "" +
@@ -300,25 +289,25 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Аптеки",
 				pos: [56.746884, 37.199062],
-				name: "Мособлфармация",
+				name: "Мособлфармация (Курчатова)",
 				review: "141980, Московская обл., Талдомский р-н, Дубна г., ул. Курчатова, 14"
 			}));
 			this.addItem(new Item({
 				category: "Аптеки",
 				pos: [56.749422, 37.202758],
-				name: "Будь Здоров",
+				name: "Будь Здоров (Ленинградская)",
 				review: "Московская обл., Дубна, ул. Ленинградская, 22"
 			}));
 			this.addItem(new Item({
 				category: "Аптеки",
 				pos: [56.756288, 37.14082],
-				name: "Мособлфармация",
+				name: "Мособлфармация (Володарского)",
 				review: "141980, Московская обл., Дубна г., ул. Володарского, 2б/21"
 			}));
 			this.addItem(new Item({
 				category: "Аптеки",
 				pos: [56.757269, 37.138468],
-				name: "Будь Здоров",
+				name: "Будь Здоров (Центральная)",
 				review: "141980, Московская обл., Дубна г., ул. Центральная, 18а"
 			}));
 			this.addItem(new Item({
@@ -368,7 +357,7 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.739392, 37.168653],
-				name: "Московский индустриальный банк",
+				name: "Московский индустриальный банк (Боголюбова)",
 				review: "Московская обл., Дубна г., просп. Боголюбова, 14"
 			}));
 			this.addItem(new Item({
@@ -380,7 +369,7 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.738440, 37.168396],
-				name: "МДМ Банк",
+				name: "МДМ Банк (Боголюбова)",
 				review: "Московская обл., Дубна г., просп. Боголюбова, 13"
 			}));
 			this.addItem(new Item({
@@ -398,7 +387,7 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.738747, 37.167073],
-				name: "Интеркоммерц Банк",
+				name: "Интеркоммерц Банк (Боголюбова)",
 				review: "Московская обл., Дубна г., просп. Боголюбова, 16"
 			}));
 			this.addItem(new Item({
@@ -410,7 +399,7 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.738747, 37.167073],
-				name: "Мособлбанк",
+				name: "Мособлбанк (Боголюбова)",
 				review: "Московская обл., Дубна г., просп. Боголюбова, 16"
 			}));
 			this.addItem(new Item({
@@ -434,7 +423,7 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.737375, 37.165986],
-				name: "Сбербанк России",
+				name: "Сбербанк России (Боголюбова)",
 				review: "Московская обл., округ Дубна, Дубна, просп. Боголюбова, 15"
 			}));
 			this.addItem(new Item({
@@ -446,7 +435,7 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.740873, 37.168260],
-				name: "Мособлбанк",
+				name: "Мособлбанк (Понтекорво)",
 				review: "Московская обл., округ Дубна, Дубна, ул. Понтекорво, 8, корп.1"
 			}));
 			this.addItem(new Item({
@@ -458,7 +447,7 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.744823, 37.182914],
-				name: "МДМ Банк",
+				name: "МДМ Банк (Сахарова)",
 				review: "Московская обл., Дубна г., ул. Сахарова, 8"
 			}));
 			this.addItem(new Item({
@@ -470,7 +459,7 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.745814, 37.186337],
-				name: "Московский индустриальный банк",
+				name: "Московский индустриальный банк (Сахарова)",
 				review: "Московская обл., округ Дубна, Дубна, ул. Сахарова, 4"
 			}));
 			this.addItem(new Item({
@@ -488,13 +477,13 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.745220, 37.192688],
-				name: "Интеркоммерц Банк",
+				name: "Интеркоммерц Банк (Жолио Кюри)",
 				review: "Московская обл., Дубна г., ул. Жолио Кюри, 13"
 			}));
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.745220, 37.192688],
-				name: "МДМ Банк",
+				name: "МДМ Банк (Жолио Кюри)",
 				review: "Московская обл., Дубна г., ул. Жолио Кюри, 13"
 			}));
 			this.addItem(new Item({
@@ -506,7 +495,7 @@ var Controller = function(model) {
 			this.addItem(new Item({
 				category: "Банкоматы",
 				pos: [56.748364, 37.197112],
-				name: "Сбербанк России",
+				name: "Сбербанк России (Мира)",
 				review: "Московская обл., Дубна г., ул. Мира, 13, МСЧ №9"
 			}));
 	
@@ -855,12 +844,26 @@ Controller.prototype.addItem = function(item) {
 		for(var key in this.model.categories) if(this.model.categories.hasOwnProperty(key)) {
 			var currentCategory = this.model.categories[key];
 			if(currentCategory.name == itemCategoryName) {
-				currentCategory.items.push(item);
-				added = true;
+				// TODO: возможность работы с одинаковыми именами
+				var ableToAdd = true; // объекта с таким именем еще нет в категории
+				for(var i = 0; i < currentCategory.items.length; i++) {
+					if(currentCategory.items[i].name == item.name) {
+						ableToAdd = false;
+						break;
+					}
+				}
+				if(ableToAdd) {
+					currentCategory.items.push(item);
+					added = true;
+				}
+				else {
+					console.log("unable to add item: ", item);
+					console.log("item with this name is already added");
+				}
 				break;
 			}
 		}
-		if(!added) { // unknown category -> default 
+		if(!added && ableToAdd) { // unknown category -> default 
 			this.model.categories["default"].items.push(item);
 		}
 	}

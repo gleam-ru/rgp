@@ -49,9 +49,9 @@ View.prototype.createMap = function() {
 		behaviors: ["default", "scrollZoom"]
 	});
 
-	map.controls
+	// map.controls
 		// .add('zoomControl')
-		.add('typeSelector');
+		// .add('typeSelector');
 
 	return map;
 }
@@ -298,10 +298,6 @@ View.prototype.showFullReview = function(category, item) {
 
 	flexSliderInit();
 }
-
-View.prototype.setItemChecked = function(categoryName, itemName, checked) {
-}
-
 
 
 function flexSliderInit() {

@@ -6,8 +6,6 @@ var Item = function(obj) {
 
 	// TODO: автоматическая расстановка параграфов
 	review = obj.review || "";
-	// TODO: это долен делать View
-	// review = review.replace("<a ", "<a onclick=reviewLinkClicked(event) ");
 	this.review = review;
 	
 	this.category = obj.category || "default";
