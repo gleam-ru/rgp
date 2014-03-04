@@ -17,9 +17,9 @@ var Item = function(obj) {
 			this.images.push("<img src='images/items/"+obj.images[i]+"' />");
 		}
 	}
-	else {
-		this.images.push("<img src='images/items/noImage.jpg' />");
-	}
+	// else {
+	// 	this.images.push("<img src='images/items/noImage.jpg' />");
+	// }
 
 	this.active = false;
 	// this.active = true;
@@ -62,6 +62,7 @@ var Stuff = function() {
 		icon: "twirl#grayDotIcon"
 	});
 	this.categories = {'default': defaultCategory};
+	this.categories = {}
 
 	return this;
 }

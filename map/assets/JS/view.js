@@ -11,8 +11,6 @@ var View = function(model, controller) {
 	}
 	this.controller = controller;
 
-	this.map = this.createMap();
-
 	this.legalBodyClick = false;
 	var currentView = this;
 	$('body').click(function() {
@@ -22,6 +20,13 @@ var View = function(model, controller) {
 		}
 		currentView.legalBodyClick = false;
 	});
+
+	// inits yandex-map
+	this.map = this.createMap();
+	// list on categories-items
+	this.createView();
+	// puts pointers on map
+	this.update();
 
 	return this;
 }
@@ -54,8 +59,12 @@ View.prototype.createView = function() {
 		// first init
 		$('body').append("<div id=\"categories\"></div>");
 	}
+	categories = $('#categories');
+
+	categories.append("<h1>Выберите категорию</h1>");
+
 	var ul = this.createCategoriesUL();
-	$('#categories').append($(ul));
+	categories.append($(ul));
 	// FUNC:
 	$('.itemClickableName').click(function(event) {
 		// show full review on click on item name in list
@@ -101,6 +110,14 @@ View.prototype.createView = function() {
 		currentView.controller.setItemsState([[categoryName, itemName]], active);
 
 		currentView.update();
+	});
+	// FUNC:
+	$(".expand, .categoryName").on('click', function(event) {
+	    var el = $(event.target);
+	    var CategoryNode = el.parent();
+	    window.itemsNode = CategoryNode.find(".itemsContainer");
+	    itemsNode.parent().toggleClass("opened");
+	    itemsNode.toggle('fast', function() {});
 	});
 }
 View.prototype.createCategoriesUL = function() {
@@ -218,17 +235,19 @@ View.prototype.showFullReview = function(category, item) {
 			review += currentItem.name;
 		review += "</span>"
 	review += "</h1>";
-	review += "<div class='flexsliderWrapper'>";
-		review += "<div class='flexslider'>";
-			review += "<ul class='slides'>";
-				for(var i = 0; i < currentItem.images.length; i++) {
-					review += "<li>"
-						review += currentItem.images[i];
-					review += "</li>"
-				}
-			review += "</ul>"
+	if(currentItem.images.length) {
+		review += "<div class='flexsliderWrapper'>";
+			review += "<div class='flexslider'>";
+				review += "<ul class='slides'>";
+					for(var i = 0; i < currentItem.images.length; i++) {
+						review += "<li>"
+							review += currentItem.images[i];
+						review += "</li>"
+					}
+				review += "</ul>"
+			review += "</div>"
 		review += "</div>"
-	review += "</div>"
+	}
 	review += currentItem.review;
 
 	if(!$('#fullReview').length) {
@@ -242,33 +261,23 @@ View.prototype.showFullReview = function(category, item) {
 		$('body').append(fullReviewElem);
 
 		// FUNC:
-		$('.addItemOnMap').click(function(event) {
-			// TODO:
-			// тупой сет чект
-			event.stopPropagation();
+		$('.addItemOnMap, .removeItemFromMap').click(function(event) {
+			this.legalBodyClick = true;
+			var el = $(event.target);
+			var itemName = el.parent().find('#itemName').text();
+			var categoryName = el.parent().find('#categoryName').text();
 
-			var el = event.target;
-			var categoryName = $(el).parent().find("#categoryName").text();
-			var itemName = $(el).parent().find("#itemName").text();
-
-			currentView.controller.setItemsState([[categoryName, itemName]], true);
+			var enableItem = $(this).hasClass("addItemOnMap") ? true : false;
+			$("#categories").find('>ul>li').each(function() {
+				if($(this).find('.categoryName').text() == categoryName) {
+					$(this).find('.itemName').each(function() {
+						if($(this).text() == itemName) {
+							$(this).parent().find('input').prop('checked', enableItem).change();
+						}
+					});
+				}
+			});
 			currentView.hideFullReview();
-			currentView.update();
-
-		});
-		// FUNC:
-		$('.removeItemFromMap').click(function(event) {
-			// TODO:
-			// тупой сет анчект
-			event.stopPropagation();
-
-			var el = event.target;
-			var categoryName = $(el).parent().find("#categoryName").text();
-			var itemName = $(el).parent().find("#itemName").text();
-
-			currentView.controller.setItemsState([[categoryName, itemName]], false);
-			currentView.hideFullReview();
-			currentView.update();
 		});
 	}
 
@@ -280,6 +289,9 @@ View.prototype.showFullReview = function(category, item) {
 	});
 
 	flexSliderInit();
+}
+
+View.prototype.setItemChecked = function(categoryName, itemName, checked) {
 }
 
 function flexSliderInit() {
