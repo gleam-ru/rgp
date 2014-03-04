@@ -10,8 +10,7 @@ var Controller = function(model) {
 	**/
 		this.addCategory(new Category({
 			name: "Гостиницы",
-			icon: "twirl#campingIcon",
-			image: "red.jpg"
+			icon: "twirl#campingIcon"
 		}));
 
 			this.addItem(new Item({
@@ -59,9 +58,30 @@ var Controller = function(model) {
 
 		this.addCategory(new Category({
 			name: "Музеи",
-			icon: "twirl#houseIcon",
-			image: "red.jpg"
+			icon: "twirl#houseIcon"
 		}));
+
+			this.addItem(new Item({
+				category: "Музеи",
+				pos: [56.744467, 37.193683], 
+				name: "Музей истории науки и техники ОИЯИ (Объединенного института ядерных исследований)",
+				review: "" +
+					"<p>Музей посвящен непосредственно истории, научным достижениям и научно-просветительской деятельности института. В экспозиции макеты научных установок, приборы, фото и пр. материалы, в том числе личный микроскоп И.В. Курчатова.</p>",
+				images: [ 
+					"mysei_jinr.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Музеи",
+				pos: [56.744483, 37.19355], 
+				name: "Музей замка",
+				review: "" +
+					"<p>Амбициозный туристический проект на территории г. Дубна. Планировался интерактивный музей деревянного зодчества под открытым небом, гостиница на 70 мест, музей верхневолжского быта и пр. инфраструктура. В настоящее время представляет из себя брошенную стройплощадку, огороженную высоким забором.</p>",
+				images: [ 
+					"muzei_zamka.png"
+				]
+			}));
 
 			this.addItem(new Item({
 				category: "Музеи",
@@ -94,11 +114,9 @@ var Controller = function(model) {
 
 
 
-
 		this.addCategory(new Category({
 			name: "Развлечения",
-			icon: "twirl#theaterIcon",
-			image: "red.jpg"
+			icon: "twirl#theaterIcon"
 		}));
 
 			this.addItem(new Item({
@@ -154,8 +172,7 @@ var Controller = function(model) {
 
 		this.addCategory(new Category({
 			name: "Спорт",
-			icon: "twirl#gymIcon",
-			image: "red.jpg"
+			icon: "twirl#gymIcon"
 		}));
 
 			this.addItem(new Item({
@@ -199,8 +216,7 @@ var Controller = function(model) {
 
 		this.addCategory(new Category({
 			name: "Аптеки",
-			icon: "twirl#hospitalIcon",
-			image: "red.jpg"
+			icon: "twirl#hospitalIcon"
 		}));
 
 			this.addItem(new Item({
@@ -340,8 +356,7 @@ var Controller = function(model) {
 
 		this.addCategory(new Category({
 			name: "Банкоматы",
-			icon: "twirl#bankIcon",
-			image: "red.jpg"
+			icon: "twirl#bankIcon"
 		}));
 
 			this.addItem(new Item({
@@ -495,6 +510,327 @@ var Controller = function(model) {
 				review: "Московская обл., Дубна г., ул. Мира, 13, МСЧ №9"
 			}));
 	
+
+
+		this.addCategory(new Category({
+			name: "Еда",
+			icon: "twirl#cafeIcon"
+		}));
+
+			this.addItem(new Item({
+				category: "Еда",
+				pos: [56.739757, 37.223526], 
+				name: "Паб 'Churchill'",
+				review: "" +
+					"<h1>Паб 'Черчилль'</h1>" +
+					"<p>К услугам наших гостей предлагаются четыре комфортных зала (курящие и некурящие)!, богатый выбор СВЕЖЕГО ПИВА, наивкуснейшие напитки, изысканная кухня, НАСТОЛЬНЫЕ ИГРЫ и вообще все то, что нужно для отличного и приятного отдыха.</p>",
+				images: [ 
+					"Churchill.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Еда",
+				pos: [56.740379, 37.173948], 
+				name: "Бар 'Why not'",
+				review: "" +
+					"<h1>Бар 'Why not' – steak-house</h1>" +
+					"<p>Режим работы:\
+					Воскресение - Четверг\
+					11:00 - 02:00\
+					Пятница - Суббота\
+					11:00 - 04:00\
+					</p>",
+				images: [ 
+					"Whynot.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Еда",
+				pos: [56.754283, 37.125484], 
+				name: "Ресторан 'Камелот'",
+				review: "" +
+					"<h1>Ресторан 'Камелот'</h1>" +
+					"<p>Ресторан 'КАМЕЛОТ' в Дубне предлагает своим гостям окунуться в средневековую замковую атмосферу, побывать в сказочных уголках 'вечного города' и насладиться блюдами средневековой и современной кухни.</p>",
+				images: [ 
+					"Kamelot.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Еда",
+				pos: [56.757949, 37.139624], 
+				name: "Кофепиццабар 'Централле'",
+				review: "" +
+					"<h1>КофеПиццаБар 'Централе'</h1>" +
+					"<p>Недавно открытый ресторан располагается на двух этажах современного нового здания. Ресторан предлагает блюда итальянской кухни, тщательно подобранный выбор вин, разливное пиво, выпекает пиццу.</p>",
+				images: [ 
+					"Centrale.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Еда",
+				pos: [56.734504, 37.152766], 
+				name: "Пиццерия 'OlimPizza'",
+				review: "" +
+					"<h1>Пиццерия 'OlimPizza'</h1>" +
+					"<p>Уютное кафе в отдельном здании на Большой Волге. Специализируются на пицце и суши. Вполне подойдет для детей, так как нет курящей зоны.</p>",
+				images: [ 
+					"Olimpizza.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Еда",
+				pos: [56.743133, 37.178521], 
+				name: "Кофейня 'Fresh Cup'",
+				review: "" +
+					"<h1>Кофейня 'Fresh Cup'</h1>" +
+					"<p>Кухни: русская, итальянская, японская. Wi-Fi.</p>",
+				images: [ 
+					"Freshcup.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Еда",
+				pos: [56.732889, 37.155452], 
+				name: "Кафе 'Стулья'",
+				review: "" +
+					"<h1>Кафе 'Стулья'</h1>" +
+					"<p>«Стулья» — это городское кафе с домашней кухней. Мы всё готовим из свежих продуктов и с душой. Знакомые каждому с детства вкусы и блюда собраны в одном меню: домашние котлеты, пельмени ручной лепки, соленья, рыбные и мясные блюда в элегантной ресторанной подаче.</p>",
+				images: [ 
+					"Stulia.png"
+				]
+			}));
+
+
+
+		this.addCategory(new Category({
+			name: "Памятники",
+			icon: "twirl#mushroomIcon"
+		}));
+
+			this.addItem(new Item({
+				category: "Памятники",
+				pos: [56.731517, 37.124033], 
+				name: "Памятник Ленину",
+				review: "" +
+					"<p>Считается самым высоким в мире памятником Ленину. Высота фигуры - 37 метров. Установлен у канала им. Москвы.</p>",
+				images: [ 
+					"lenin.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Памятники",
+				pos: [56.7463, 37.188483], 
+				name: "Настенные рисунки г. Дубна",
+				review: "" +
+					"<p>Достаточно интересные настенные рисунки встречаются по всему городу в самых неожиданных местах. Самым интересным зданием, со всех сторон украшенных 'росписями' является книжный магазин на ул. Сахарова, д. 1, стр. 2.</p>",
+				images: [ 
+					"nastennye_risunki.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Памятники",
+				pos: [56.749961, 37.187583], 
+				name: "Памятник М.Г. Мещерякову",
+				review: "" +
+					"<p>Открыт в 2010 г. к 100-летию выдающегося физика-экспериментатора. Ученый изображен сидящим на скамейке.</p>",
+				images: [ 
+					"mesheryakov.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Памятники",
+				pos: [56.748883, 37.18935], 
+				name: "Памятник Высоцкому",
+				review: "" +
+					"<p>Открыт в 2008 г. Скульптор - Яновский. Рядом аллея Высоцкого, названная в честь выступлений артиста в ДК 'Мир'' (сама аллея появилась в 1950-х гг.).</p>",
+				images: [ 
+					"vysotskii.png"
+				]
+			}));
+
+
+			this.addItem(new Item({
+				category: "Памятники",
+				pos: [56.7271, 37.371782], 
+				name: "Гигантский стул",
+				review: "" +
+					"<p>Считается самым высоким в мире памятником Ленину. Высота фигуры - 37 метров. Установлен у канала им. Москвы.</p>" +
+					"<p><a href='http://www.youtube.com/watch?v=c1hlM6ZwNf0'>Видео</a></p>",
+				images: [ 
+					"stul.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Памятники",
+				pos: [56.747867, 37.191067], 
+				name: "Памятник М. И. Глинке",
+				review: "" +
+					"<p>Расположен между музеем ОИЯИ и музыкальной школой № 1.</p>",
+				images: [ 
+					"glinka.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Памятники",
+				pos: [56.74575, 37.195983], 
+				name: "Памятник И.В.Курчатову",
+				review: "" +
+					"<p>Открыт в 2002г. Скульптор-Сагателян.</p>",
+				images: [ 
+					"kurchatov.png"
+				]
+			}));
+
+
+
+		this.addCategory(new Category({
+			name: "Сооружения",
+			icon: "twirl#buildingsIcon"
+		}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.736383, 37.120833], 
+				name: "Водосливная плотина Иваньковской ГЭС",
+				review: "" +
+					"<p>Длина плотины более 200 м , высота - порядка 29 метров. Расположена на р. Волга</p>",
+				images: [ 
+					"plotina.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.781775 ,37.238079], 
+				name: "Архитектура Дубны",
+				review: "" +
+					"<p>Сохранилось достаточно много построек времен начала строительства научного городка ( ок 1947 г). Интерес представляет исторический центр города, ул Курчатова, ул. Векслера, ул. Франка и т.д., а так же ул. Дачная.</p>",
+				images: [ 
+					"arhitektura.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.716183, 37.132017], 
+				name: "Паромная переправа №1 через канал им. Москвы, заградительные ворота и маяк",
+				review: "" +
+					"<p>Переправа небольшой грузоподъемности. Рядом на канале заградительные ворота и маяк. Архитектурные особенности сооружений типичны для сталинской эпохи.</p>",
+				images: [ 
+					"parom.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.697533, 37.175267], 
+				name: "Пересечение р. Сестра и канала им. Москвы",
+				review: "" +
+					"<p>Место расположено на въезде в г. Дубна. Интересно инженерным решением, когда весь поток реки заведен в трубу и пропущен под каналом. Высота дамбы порядка 18 м.</p>",
+				images: [ 
+					"Peresechenie_rek.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.784031, 37.196868], 
+				name: "Женьшеневая плантация",
+				review: "" +
+					"<p>Плантация площадью в один гектар находится в поселке Крева на окраине Дубны. Хозяйка покажет вам плантацию и расскажет про все тайны женьшеня.</p>",
+				images: [ 
+					"zhenshen.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.829917, 37.062517], 
+				name: "Брошенный купол антенны локатора ('шар')",
+				review: "" +
+					"<p>Конструкция из стеклопластика в нескольких километрах от Дубны в лесу. Предположительно, утерян в 80-е годы во время транспортировки из-за обрыва троса. Диаметр составляет около 18 м.</p>",
+				images: [
+					"shar.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.724683, 37.1851], 
+				name: "Храм Всех святых",
+				review: "" +
+					"<p>2007 г. Действующий.</p>",
+				images: [ 
+					"hram_vseh_svyatyh.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.735843,37.251385], 
+				name: "Центр космической связи 'Дубна'",
+				review: "" +
+					"<p>Филиал ФГУП 'Космическая связь' работает с 1980 г. и является крупнейшим телепортом России и одним из крупнейших в Европе.</p>",
+				images: [ 
+					"cks.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.754758, 37.151596], 
+				name: "Храм Смоленской иконы Божией матери",
+				review: "" +
+					"<p>Деревянный храм современной постройки.</p>",
+				images: [ 
+					"hram_smolenskoi_ikony.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.730283, 37.141117], 
+				name: "Храм рождества Иоанна Предтечи",
+				review: "" +
+					"<p>Нач. строительства - 2000 г. Действующий.</p>",
+				images: [ 
+					"hram_rozhdestva_predtechi.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.740204, 37.224982], 
+				name: "Международный университет природы, общества и человека 'Дубна'",
+				review: "" +
+					"<p>Оригинальный комплекс зданий 1990-х годов постройки.</p>",
+				images: [ 
+					"mupoch.png"
+				]
+			}));
+
+			this.addItem(new Item({
+				category: "Сооружения",
+				pos: [56.730283, 37.140983], 
+				name: "Этнографическо-туристический центр 'Иваньковское подворье'",
+				review: "" +
+					"<p>Амбициозный туристический проект на территории г. Дубна. Планировался интерактивный музей деревянного зодчества под открытым небом, гостиница на 70 мест, музей верхневолжского быта и пр. инфраструктура. В настоящее время представляет из себя брошенную стройплощадку, огороженную высоким забором.</p>",
+				images: [ 
+					"tsentr_ivankovskoe_podvore.png"
+				]
+			}));
+
 	return this;
 }
 
@@ -558,69 +894,4 @@ Controller.prototype.setItemsState = function(categoryItemList, state) {
 		}
 		currentItem.active = state;
 	}
-}
-
-
-
-
-
-
-/***
-* CLICK-EVENTS
-*/
-// creates cinema-view or simply leaves the page
-function baloonLinkClicked(event) {
-	event.preventDefault ? event.preventDefault() : (event.returnValue=false);
-	event.stopPropagation ? event.stopPropagation() : (event.returnValue=false);
-	el = event.target;
-	if(el.href.match(/youtube\.com/gi)) { // it`s youtube link
-		createCinemaView(el.href);
-	}
-	else {
-		location.href = el.href;
-	}
-}
-
-function createCinemaView(ytLink) {
-	var body = $("body");
-	if($("#shadow")) {
-		$("#shadow").css("display", "block");
-		$("#shadow").unbind().click(function(event) {
-			event.stopPropagation();
-			destroyCinemaView();
-		});
-	}
-	var ytLayer = $("#ytLayer");
-	if(ytLayer) {
-		ytLayer.css("z-index", "40");
-		var ytVideoId = ytLink.match(/\?v=([\w\d]+)/gi)[0].substring(3);
-		var ytFrame = ""+
-			"<iframe " +
-				"width='640' "+
-				"height='360' "+
-				"src='http://www.youtube.com/embed/"+ytVideoId+"?"+
-				"&autoplay=1"+
-			"'><iframe>"
-		$(ytFrame).appendTo(ytLayer);
-		ytLayer.css("display", "block");
-	}
-	else {
-		console.error("unable to show YT video - there is no '#ytLayer' containter");
-	}
-}
-
-function destroyCinemaView() {
-	$("#ytLayer").css("display", "none");
-	$("#ytLayer").empty();
-	$("#shadow").css("display", "none");
-}
-
-
-
-function bodyClicked() {
-	if(!window.legalBodyClick) {
-		hideFullReview();
-		destroyCinemaView();
-	}
-	window.legalBodyClick = false;
 }

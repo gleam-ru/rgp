@@ -6,7 +6,8 @@ var Item = function(obj) {
 
 	// TODO: автоматическая расстановка параграфов
 	review = obj.review || "";
-	review = review.replace("<a ", "<a onclick=baloonLinkClicked(event) ");
+	// TODO: это долен делать View
+	// review = review.replace("<a ", "<a onclick=reviewLinkClicked(event) ");
 	this.review = review;
 	
 	this.category = obj.category || "default";
@@ -34,14 +35,8 @@ var Item = function(obj) {
 var Category = function(obj) {
 	this.name = obj.name || "default";
 
+	// http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/option.presetStorage.xml
 	this.icon = obj.icon || "twirl#greyDotIcon";
-
-	if(obj.image) {
-		this.image = "images/categories/"+obj.image;
-	}
-	else {
-		this.image = "images/categories/default.jpg";
-	}
 
 	this.items = [];
 

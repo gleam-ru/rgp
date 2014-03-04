@@ -11,15 +11,11 @@ var View = function(model, controller) {
 	}
 	this.controller = controller;
 
-	this.legalBodyClick = false;
-	var currentView = this;
-	$('body').click(function() {
-		if(!currentView.legalBodyClick) {
-			currentView.hideFullReview();
-			// destroyCinemaView();
-		}
-		currentView.legalBodyClick = false;
-	});
+	this.mapWrapper = "#stuff";
+	this.categoriesWrapper = "#categories";
+	this.fullReviewWrapper = "#fullReview";
+	this.cinemaShadow = "#shadow";
+	this.ytLayer = "#ytLayer";
 
 	// inits yandex-map
 	this.map = this.createMap();
@@ -28,12 +24,23 @@ var View = function(model, controller) {
 	// puts pointers on map
 	this.update();
 
+
+	this.legalBodyClick = false;
+	var currentView = this;
+	$('body').click(function() {
+		if(!currentView.legalBodyClick) {
+			currentView.hideFullReview();
+		}
+		currentView.legalBodyClick = false;
+	});
+
+
 	return this;
 }
 
 View.prototype.createMap = function() {
-	var mapId = "stuff";
-	if(!$("#stuff").length) {
+	var mapId = this.mapWrapper.replace('#', '');
+	if(!$(this.mapWrapper).length) {
 		$('body').append("<div id='"+mapId+"'></div>");
 	}
 	var map = new ymaps.Map(mapId, {
@@ -55,11 +62,11 @@ View.prototype.createMap = function() {
 
 View.prototype.createView = function() {
 	var currentView = this;
-	if(!$('#categories').length) {
+	if(!$(currentView.categoriesWrapper).length) {
 		// first init
 		$('body').append("<div id=\"categories\"></div>");
 	}
-	categories = $('#categories');
+	categories = $(currentView.categoriesWrapper);
 
 	categories.append("<h1>Выберите категорию</h1>");
 
@@ -204,7 +211,7 @@ View.prototype.update = function() {
 }
 
 View.prototype.hideFullReview = function() {
-	$("#fullReview").css("display", "none");
+	$(this.fullReviewWrapper).css("display", "none");
 }
 View.prototype.showFullReview = function(category, item) {
 	currentView = this;
@@ -250,7 +257,7 @@ View.prototype.showFullReview = function(category, item) {
 	}
 	review += currentItem.review;
 
-	if(!$('#fullReview').length) {
+	if(!$(this.fullReviewWrapper).length) {
 		// first init
 		var fullReviewElem = "";
 		fullReviewElem += "<div id=\"fullReview\">"
@@ -268,7 +275,7 @@ View.prototype.showFullReview = function(category, item) {
 			var categoryName = el.parent().find('#categoryName').text();
 
 			var enableItem = $(this).hasClass("addItemOnMap") ? true : false;
-			$("#categories").find('>ul>li').each(function() {
+			$(currentView.categoriesWrapper).find('>ul>li').each(function() {
 				if($(this).find('.categoryName').text() == categoryName) {
 					$(this).find('.itemName').each(function() {
 						if($(this).text() == itemName) {
@@ -281,18 +288,21 @@ View.prototype.showFullReview = function(category, item) {
 		});
 	}
 
-	$('#fullReview .content').html(review);
-	$("#fullReview").css("display", "block");
+	var fullReviewElem = $(currentView.fullReviewWrapper);
+	fullReviewElem.find('.content').html(review);
+	fullReviewElem.css("display", "block");
 	// FUNC:
-	$("#fullReview").unbind().click(function(event) {
-		event.stopPropagation();
-	});
+	$(currentView.fullReviewWrapper).find('a').bind('click', {'view': currentView}, currentView.reviewLinkClicked);
+	// FUNC:
+	fullReviewElem.unbind().click(function(event) {event.stopPropagation();});
 
 	flexSliderInit();
 }
 
 View.prototype.setItemChecked = function(categoryName, itemName, checked) {
 }
+
+
 
 function flexSliderInit() {
 	$('.flex-control-nav').remove();
@@ -301,3 +311,53 @@ function flexSliderInit() {
 }
 
 
+
+
+
+View.prototype.reviewLinkClicked = function(event) {
+	event.preventDefault ? event.preventDefault() : (event.returnValue=false);
+	event.stopPropagation ? event.stopPropagation() : (event.returnValue=false);
+
+	el = event.target;
+	if(el.href.match(/youtube\.com/gi)) { // it`s youtube link
+		event.data.view.createCinemaView(el.href);
+	}
+	else {
+		location.href = el.href;
+	}
+}
+
+View.prototype.createCinemaView = function(ytLink) {
+	var currentView = this;
+	if(!$(this.cinemaShadow).length) {
+		$('body').append("<div id=\""+this.cinemaShadow+"\"></div>");
+	}
+	var shadow = $(this.cinemaShadow);
+	shadow.css("display", "block");
+	shadow.unbind().click(function(event) {
+		event.stopPropagation();
+		currentView.destroyCinemaView();
+	});
+
+	if(!$(this.ytLayer).length) {
+		$('body').append("<div id=\""+this.ytLayer+"\"></div>");
+	}
+	var ytLayer = $(this.ytLayer);
+	ytLayer.css("z-index", "40");
+	var ytVideoId = ytLink.match(/\?v=([\w\d]+)/gi)[0].substring(3);
+	var ytFrame = ""+
+		"<iframe " +
+			"width='640' "+
+			"height='360' "+
+			"src='http://www.youtube.com/embed/"+ytVideoId+"?"+
+			"&autoplay=1"+
+		"'><iframe>"
+	$(ytFrame).appendTo(ytLayer);
+	ytLayer.css("display", "block");
+}
+
+View.prototype.destroyCinemaView = function() {
+	$(this.ytLayer).css("display", "none");
+	$(this.ytLayer).empty();
+	$(this.cinemaShadow).css("display", "none");
+}
