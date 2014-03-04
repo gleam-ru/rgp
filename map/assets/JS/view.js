@@ -89,10 +89,10 @@ View.prototype.createView = function() {
 	// FUNC:
 	$(".itemsContainer>li>input").change(function() {
 		// show activated item
-		var itemCheckbox = $(this);
+		window.itemCheckbox = $(this);
 		var active = itemCheckbox.is(":checked") ? true : false;
 		if(!active) {
-			itemCheckbox.parent().parent().parent().find("input[type=checkbox]").prop('checked', false);
+			itemCheckbox.parent().parent().parent().find(">input[type=checkbox]").prop('checked', false);
 		}
 
 		var itemName = itemCheckbox.parent().find(".itemName").text();
