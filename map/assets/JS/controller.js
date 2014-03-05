@@ -649,7 +649,7 @@ var Controller = function(model) {
 
 			this.addItem(new Item({
 				category: "Памятники",
-				pos: [56.7271, 37.371782], 
+				pos: [56.7271, 37.1782], 
 				name: "Гигантский стул",
 				review: "" +
 					"<p>Считается самым высоким в мире памятником Ленину. Высота фигуры - 37 метров. Установлен у канала им. Москвы.</p>" +
@@ -825,10 +825,13 @@ var Controller = function(model) {
 
 
 
+/********
+***
+*** FILLING OF THE MODEL
+***
+*********/
 
-
-	
-// adds new category into Stuff
+// adds new category into contents of model
 Controller.prototype.addCategory = function(category) {
 	if(!category) {
 		console.error('unknown category');
@@ -837,6 +840,7 @@ Controller.prototype.addCategory = function(category) {
 	this.model.categories[category.name] = category;
 }
 
+// adds new category into into contents of model
 Controller.prototype.addItem = function(item) {
 	if(item) {
 		var itemCategoryName = item.category;
@@ -871,9 +875,13 @@ Controller.prototype.addItem = function(item) {
 
 
 
+/********
+***
+*** MANIPULATING WITH THE MODEL
+***
+*********/
 
-
-
+// activates items in the model
 // active items are shown on the map
 // [[category, item], [..., ...]]
 Controller.prototype.setItemsState = function(categoryItemList, state) {
@@ -886,7 +894,7 @@ Controller.prototype.setItemsState = function(categoryItemList, state) {
 		var currentCategory = categoryItemList[i][0];
 		var currentItem = categoryItemList[i][1];
 		if(typeof(currentCategory.name) === "undefined") {
-			// it is only NAMES of category and item...
+			// it is only NAMES of category and item, not class-objects...
 			currentCategory = this.model.categories[currentCategory];
 			for(var ii = 0; ii < currentCategory.items.length; ii++) {
 				if(currentCategory.items[ii].name == currentItem) {

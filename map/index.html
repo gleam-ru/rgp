@@ -1,25 +1,30 @@
 <!DOCTYPE HTML>
 <html lang="ru-RU">
-<head>
-<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
-	<title>Map-Viewer</title>
+	<head>
+		<title>Map-Viewer</title>
+		
+		<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
 
-	<link rel="stylesheet" href="assets/style/reset.css" type="text/css" />
-	<link rel="stylesheet" href="assets/style/main.css" type="text/css" />
+		<link rel="stylesheet" href="assets/style/reset.css" type="text/css" />
+		<link rel="stylesheet" href="assets/style/main.css" type="text/css" />
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU"></script>
-	<script src="assets/JS/jquery.flexslider.js"></script>
-	
-	<script src="assets/JS/model.js"></script>
-	<script src="assets/JS/view.js"></script>
-	<script src="assets/JS/controller.js"></script>
-	<script src="assets/JS/main.js"></script>
-</head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<!-- Для работы с маршрутами STANDARD -> FULL -->
+		<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU"></script>
+		<!-- Шаблонизатор: -->
+		<script src="assets/JS/handlebars-1.0.rc.1.min.js"></script>
+		<!-- TODO: заменить слдайдер -->
+		<script src="assets/JS/jquery.flexslider.js"></script>
 
-<body>
-	<!-- <h1 id="mainHeader">Туристический портал города Дубны</h1> -->
-	<div id="ytLayer"></div>
-	<div id="shadow"></div>
-</body>
+		<script src="assets/JS/model.js"></script>
+		<script src="assets/JS/view.js"></script>
+		<script src="assets/JS/controller.js"></script>
+		
+		<script src="assets/JS/main.js"></script>
+	</head>
+
+	<body>
+		<!-- <h1 id="mainHeader">Туристический портал города Дубны</h1> -->
+	</body>
+
 </html>

@@ -11,79 +11,149 @@ var View = function(model, controller) {
 	}
 	this.controller = controller;
 
+
+
+	var body = $('body');
+	
 	this.mapWrapper = "#stuff";
+
+	// left list of categories tree
 	this.categoriesWrapper = "#categories";
+
+	// page with review of item
 	this.fullReviewWrapper = "#fullReview";
-	this.cinemaShadow = "#shadow";
+
+	// youtube-frame
 	this.ytLayer = "#ytLayer";
+		this.cinemaShadow = "#shadow";
+	
+	// event.stopPropagation() not works correctly
+	this.legalBodyClick = false;
+
+
+
+	// categories template (left list)
+	if(!$(this.categoriesWrapper).length) body.append("<div id='"+this.categoriesWrapper.replace('#', '')+"'></div>");
+	var categoriesTemplate = Handlebars.compile("\
+		<h1>Выберите категорию</h1>\
+		<ul class='categoriesContainer'>\
+			{{#categories}}\
+			<li>\
+				<div class='expand'></div>\
+				<input type='checkbox' data-category='{{name}}'/>\
+				<div class='categoryName'>\
+					{{name}}\
+				</div>\
+				<ul class='itemsContainer'>\
+					{{#items}}\
+					<li>\
+						<input type='checkbox'\
+							data-category='{{../name}}'\
+							data-item='{{name}}'\
+						/>\
+						<div class='itemName itemClickableName'\
+							data-category='{{../name}}'\
+							data-item='{{name}}'\
+						>\
+							{{name}}\
+						</div>\
+					</li>\
+					{{/items}}\
+				</ul>\
+			</lа если i>\
+			{{/categories}}\
+		</ul>\
+	");
+	$(this.categoriesWrapper).html(categoriesTemplate(this.getCategoriesStructure()));
+
+	// fullReview template 
+	if(!$(this.fullReviewWrapper).length) body.append("<div id='"+this.fullReviewWrapper.replace('#', '')+"'></div>");
+	this.fullReviewTemplate = Handlebars.compile("\
+		{{#item}}\
+		<div class='content'>\
+			<h1>\
+				Категория: <span id='categoryName'>{{category}}</span>\
+				<br />\
+				Объект: <span id='itemName'>{{name}}</span>\
+			</h1>\
+			{{#if images}}\
+			<div class='flexsliderWrapper'>\
+				<div class='flexslider'>\
+					<ul class='slides'>\
+						{{#images}}\
+						<li>\
+							<img src='images/items/{{image}}' />\
+						</li>\
+						{{/images}}\
+					</ul>\
+				</div>\
+			</div>\
+			{{/if}}\
+			{{{review}}}\
+		</div>\
+		<button class='addItemOnMap' data-category='{{category}}' data-item='{{name}}'>\
+			Добавить на карту\
+		</button>\
+		<button class='removeItemFromMap' data-category='{{category}}' data-item='{{name}}'>\
+			Убрать с карты\
+		</button>\
+		{{/item}}\
+	");
+	$(this.fullReviewWrapper).html(this.fullReviewTemplate(this.getItemData()));
+
+
 
 	// inits yandex-map
-	this.map = this.createMap();
-	// list on categories-items
-	this.createView();
-	// puts pointers on map
+	var mapId = this.mapWrapper.replace('#', '');
+	if(!$(this.mapWrapper).length) $('body').append("<div id='"+mapId+"'></div>");
+	this.map = new ymaps.Map(mapId, {
+		center: [56.735987, 37.211286],
+		zoom: 12,
+		behaviors: ["default", "scrollZoom"]
+	});
+	// this.map.controls
+		// .add('zoomControl')
+		// .add('typeSelector');
+
+	this.setUpClickEvents();
 	this.update();
 
-
-	this.legalBodyClick = false;
-	var currentView = this;
-	$('body').click(function() {
-		if(!currentView.legalBodyClick) {
-			currentView.hideFullReview();
-		}
-		currentView.legalBodyClick = false;
-	});
 
 
 	return this;
 }
 
-View.prototype.createMap = function() {
-	var mapId = this.mapWrapper.replace('#', '');
-	if(!$(this.mapWrapper).length) {
-		$('body').append("<div id='"+mapId+"'></div>");
-	}
-	var map = new ymaps.Map(mapId, {
-		center: [56.735987, 37.211286],
-		zoom: 12,
-		behaviors: ["default", "scrollZoom"]
+
+
+
+
+/********
+***
+*** INITIALISATION OF CLICK-EVENTS
+***
+*********/
+
+View.prototype.setUpClickEvents = function() {
+	var self = this;
+
+	$('body').click(function() {
+		if(!self.legalBodyClick) {
+			self.hideFullReview();
+		}
+		self.legalBodyClick = false;
 	});
 
-	// map.controls
-		// .add('zoomControl')
-		// .add('typeSelector');
-
-	return map;
-}
-
-
-
-
-
-View.prototype.createView = function() {
-	var currentView = this;
-	if(!$(currentView.categoriesWrapper).length) {
-		// first init
-		$('body').append("<div id=\"categories\"></div>");
-	}
-	categories = $(currentView.categoriesWrapper);
-
-	categories.append("<h1>Выберите категорию</h1>");
-
-	var ul = this.createCategoriesUL();
-	categories.append($(ul));
-	// FUNC:
+	// show full review on click on item name in list
 	$('.itemClickableName').click(function(event) {
-		// show full review on click on item name in list
 		event.stopPropagation();
 		var el = $(event.target);
 		var itemName = el.data('item');
 		var categoryName = el.data('category');
-		currentView.showFullReview(categoryName, itemName);
+		self.showFullReview(categoryName, itemName);
 	});
-	// FUNC:
+
+	// show all items of category on the map
 	$(".categoriesContainer>li>input").change(function() {
-		// show all items of category
 		var categoryCheckbox = $(this);
 		var active = categoryCheckbox.is(":checked") ? true : false;
 
@@ -91,34 +161,37 @@ View.prototype.createView = function() {
 			$(this).prop('checked', active);
 		});
 
-		var categoryName = categoryCheckbox.parent().find(".categoryName").text();
-		var currentCategory = currentView.model.categories[categoryName];
+		var categoryName = categoryCheckbox.data('category');
+		var currentCategory = self.model.categories[categoryName];
 		var itemsList = currentCategory.items;
 		var categoryItemList = [];
 		for(var i = 0; i < itemsList.length; i++) {
 			categoryItemList.push([currentCategory, itemsList[i]]);
 		}
-		currentView.controller.setItemsState(categoryItemList, active);
+		self.controller.setItemsState(categoryItemList, active);
 
-		currentView.update();
+		self.update();
 	});
-	// FUNC:
+
+	// show activated item on the map
 	$(".itemsContainer>li>input").change(function() {
-		// show activated item
-		window.itemCheckbox = $(this);
+		var itemCheckbox = $(this);
 		var active = itemCheckbox.is(":checked") ? true : false;
 		if(!active) {
+			// unckecked item -> unchecked category
 			itemCheckbox.parent().parent().parent().find(">input[type=checkbox]").prop('checked', false);
 		}
 
-		var itemName = itemCheckbox.parent().find(".itemName").text();
-		var categoryName = itemCheckbox.parent().parent().parent().find(".categoryName").text();
+		var itemContainer = itemCheckbox.parent().find('.itemName');
+		var itemName = itemContainer.data('item');
+		var categoryName = itemContainer.data('category');
 
-		currentView.controller.setItemsState([[categoryName, itemName]], active);
+		self.controller.setItemsState([[categoryName, itemName]], active);
 
-		currentView.update();
+		self.update();
 	});
-	// FUNC:
+
+	// categories-toggler
 	$(".expand, .categoryName").on('click', function(event) {
 	    var el = $(event.target);
 	    var CategoryNode = el.parent();
@@ -127,54 +200,20 @@ View.prototype.createView = function() {
 	    itemsNode.toggle('fast', function() {});
 	});
 }
-View.prototype.createCategoriesUL = function() {
-	var ul = "";
-	ul += "<ul class='categoriesContainer'>"
-	for(var key in this.model.categories) if(this.model.categories.hasOwnProperty(key)) {
-		var currentCategory = this.model.categories[key];
-		if(currentCategory.items.length) { // disable empty categories
-				ul += "<li>";
-					ul += "<div class='expand'></div>";
-					ul += "<input type='checkbox'/>";
-					ul += "<div class='categoryName'>";
-						ul += currentCategory.name;
-					ul += "</div>";
-					ul += this.createItemsUL(currentCategory);
-				ul += "</li>"
-			ul += "</div>";
-		}
-	}
-	ul += "</ul>"
-	return ul;
-}
-View.prototype.createItemsUL = function(category) {
-	var ul = "";
-	ul += "<ul class='itemsContainer'>"
-	for(var i = 0; i < category.items.length; i++) {
-		var currentItem = category.items[i];
-		ul += "<li>"
-			if(currentItem.active)
-				ul += "<input type='checkbox' checked/>";
-			else
-				ul += "<input type='checkbox'/>";
-			ul += "<div class='itemName itemClickableName' data-inline='true' data-category='"+category.name+"' data-item='"+currentItem.name+"'>";
-				ul += currentItem.name
-			ul += "</div>";
-		ul += "</li>"
-	}
-	ul += "</ul>"
-	return ul;
-}
 
 
 
 
 
-
+/********
+***
+*** USER-INITIATED EVENTS
+***
+*********/
 
 // redraws every item on the map
 View.prototype.update = function() {
-	var currentView = this;
+	var self = this;
 	if(!this.map) {
 		console.error("unable to find map");
 		console.log(this);
@@ -201,8 +240,8 @@ View.prototype.update = function() {
 				);
 				placemark.events.add('click', placemarkClicked, {item:currentItem, category:currentCategory})
 				function placemarkClicked() {
-				    currentView.legalBodyClick = true;
-				    currentView.showFullReview(this.category, this.item);
+				    self.legalBodyClick = true;
+				    self.showFullReview(this.category, this.item);
 				}
 				this.map.geoObjects.add(placemark);
 			}
@@ -210,136 +249,59 @@ View.prototype.update = function() {
 	}
 }
 
-View.prototype.hideFullReview = function() {
-	$(this.fullReviewWrapper).css("display", "none");
-}
-View.prototype.showFullReview = function(category, item) {
-	currentView = this;
-	if(!category || !item) {
-		console.error('unknown item or category');
-		return;
-	}
-	var currentView = this;
-	var currentItem = item;
-	var currentCategory = category;
-	if(typeof(category.name) === "undefined") {
-		// it is only NAMES of category and item...
-		currentCategory = this.model.categories[currentCategory];
-		for(var i = 0; i < currentCategory.items.length; i++) {
-			if(currentCategory.items[i].name == currentItem) {
-				currentItem = currentCategory.items[i];
-				break;
-			}
-		}
-	}
-
-	var review = "";
-	review += "<h1>";
-		review += "Категория: <span id='categoryName'>"
-			review += currentCategory.name;
-		review += "</span><br />"
-		review += "Объект: <span id='itemName'>"
-			review += currentItem.name;
-		review += "</span>"
-	review += "</h1>";
-	if(currentItem.images.length) {
-		review += "<div class='flexsliderWrapper'>";
-			review += "<div class='flexslider'>";
-				review += "<ul class='slides'>";
-					for(var i = 0; i < currentItem.images.length; i++) {
-						review += "<li>"
-							review += currentItem.images[i];
-						review += "</li>"
-					}
-				review += "</ul>"
-			review += "</div>"
-		review += "</div>"
-	}
-	review += currentItem.review;
-
-	if(!$(this.fullReviewWrapper).length) {
-		// first init
-		var fullReviewElem = "";
-		fullReviewElem += "<div id=\"fullReview\">"
-			fullReviewElem += "<div class=\"content\"></div>"
-			fullReviewElem += "<button class='addItemOnMap'>Добавить на карту</button>"
-			fullReviewElem += "<button class='removeItemFromMap'>Убрать с карты</button>"
-		fullReviewElem += "</div>"
-		$('body').append(fullReviewElem);
-
-		// FUNC:
-		$('.addItemOnMap, .removeItemFromMap').click(function(event) {
-			this.legalBodyClick = true;
-			var el = $(event.target);
-			var itemName = el.parent().find('#itemName').text();
-			var categoryName = el.parent().find('#categoryName').text();
-
-			var enableItem = $(this).hasClass("addItemOnMap") ? true : false;
-			$(currentView.categoriesWrapper).find('>ul>li').each(function() {
-				if($(this).find('.categoryName').text() == categoryName) {
-					$(this).find('.itemName').each(function() {
-						if($(this).text() == itemName) {
-							$(this).parent().find('input').prop('checked', enableItem).change();
-						}
-					});
-				}
-			});
-			currentView.hideFullReview();
-		});
-	}
-
-	var fullReviewElem = $(currentView.fullReviewWrapper);
-	fullReviewElem.find('.content').html(review);
-	fullReviewElem.css("display", "block");
-	// FUNC:
-	$(currentView.fullReviewWrapper).find('a').bind('click', {'view': currentView}, currentView.reviewLinkClicked);
-	// FUNC:
-	fullReviewElem.unbind().click(function(event) {event.stopPropagation();});
-
-	flexSliderInit();
-}
-
-
-function flexSliderInit() {
+// shows/hides window with full review
+View.prototype.hideFullReview = function() {$(this.fullReviewWrapper).css('display', 'none');}
+View.prototype.showFullReview = function(categoryName, itemName) {
+	var fullReview = $(this.fullReviewWrapper);
+	fullReview.html(this.fullReviewTemplate(this.getItemData(categoryName, itemName)));
+	fullReview.css("display", "block");
+	// flexSlider init
 	$('.flex-control-nav').remove();
 	$('.flex-direction-nav').remove();
 	$('.flexslider').flexslider();
+
+	// FUNC:
+	fullReview.find('.addItemOnMap, .removeItemFromMap').unbind().bind('click', {'self': this}, this.fullReviewButtonClicked);
+	// FUNC:
+	fullReview.find('a').unbind().bind('click', {'self': this}, this.reviewLinkClicked);
+	// FUNC:
+	fullReview.unbind().click(function(event) {event.stopPropagation();});
 }
 
-
-
-
-
+// if youtube link - createCinemaView(), else - goto href
 View.prototype.reviewLinkClicked = function(event) {
 	event.preventDefault ? event.preventDefault() : (event.returnValue=false);
 	event.stopPropagation ? event.stopPropagation() : (event.returnValue=false);
-
+	var self = event.data.self;
 	el = event.target;
+
 	if(el.href.match(/youtube\.com/gi)) { // it`s youtube link
-		event.data.view.createCinemaView(el.href);
+		self.createCinemaView(el.href);
 	}
 	else {
 		location.href = el.href;
 	}
 }
 
+// shows shadow + frame with youtube video
 View.prototype.createCinemaView = function(ytLink) {
-	var currentView = this;
+	var self = this;
 	if(!$(this.cinemaShadow).length) {
-		$('body').append("<div id=\""+this.cinemaShadow+"\"></div>");
+		$('body').append("<div id=\""+this.cinemaShadow.replace('#', '')+"\"></div>");
+		// FUNC: destroy cinema view
+		$(this.cinemaShadow).click(function(event) {
+			self.legalBodyClick = true;
+			$(self.ytLayer).css("display", "none");
+			$(self.ytLayer).empty();
+			$(self.cinemaShadow).css("display", "none");
+		});
 	}
 	var shadow = $(this.cinemaShadow);
 	shadow.css("display", "block");
-	shadow.unbind().click(function(event) {
-		event.stopPropagation();
-		currentView.destroyCinemaView();
-	});
 
-	if(!$(this.ytLayer).length) {
-		$('body').append("<div id=\""+this.ytLayer+"\"></div>");
-	}
+	if(!$(this.ytLayer).length)
+		$('body').append("<div id=\""+this.ytLayer.replace('#', '')+"\"></div>");
 	var ytLayer = $(this.ytLayer);
-	ytLayer.css("z-index", "40");
 	var ytVideoId = ytLink.match(/\?v=([\w\d]+)/gi)[0].substring(3);
 	var ytFrame = ""+
 		"<iframe " +
@@ -352,8 +314,87 @@ View.prototype.createCinemaView = function(ytLink) {
 	ytLayer.css("display", "block");
 }
 
-View.prototype.destroyCinemaView = function() {
-	$(this.ytLayer).css("display", "none");
-	$(this.ytLayer).empty();
-	$(this.cinemaShadow).css("display", "none");
+// add/remove buttons events
+View.prototype.fullReviewButtonClicked = function(event) {
+	this.legalBodyClick = true;
+
+	var self = event.data.self;
+	var el = $(event.target);
+	var itemName = el.data('item');
+	var categoryName = el.data('category');
+
+	var enableItem = $(this).hasClass("addItemOnMap") ? true : false;
+	$(self.categoriesWrapper).find('.itemName').each(function() {
+		if($(this).data('item') == itemName && $(this).data('category') == categoryName) {
+			$(this).parent().find('input').prop('checked', enableItem).change();
+			return;
+		}
+	});
+	self.hideFullReview();
+}
+
+
+
+
+/********
+***
+*** GETTING DATA FROM MODEL
+***
+*********/
+
+View.prototype.getCategoriesStructure = function() {
+	// returned data will be like this:
+	var data = {
+		categories: [{
+			name: "",
+			items: [
+				{name: ""}
+			]
+		}]
+	};
+
+	data.categories = [];
+	for(var key in this.model.categories) if(this.model.categories.hasOwnProperty(key)) {
+		var currentCategory = this.model.categories[key];
+		var items = [];
+		for(var i = 0; i < currentCategory.items.length; i++)
+			items.push({name: currentCategory.items[i].name});
+		data.categories.push({
+			'name': currentCategory.name,
+			'items': items
+		});
+	}
+	return data;
+}
+
+View.prototype.getItemData = function(categoryName, itemName) {
+	// returned data will be like this:
+	var data = {
+		item: {
+			category: "categoryName",
+			name: "itemName",
+			review: "<p>Item not found..."
+		}
+	};
+	
+	if(typeof(categoryName) === 'undefined' || typeof(itemName) === 'undefined') return data;
+	for(var key in this.model.categories) if(this.model.categories.hasOwnProperty(key)) {
+		var currentCategory = this.model.categories[key];
+		if(currentCategory.name == categoryName) {
+			for(var i = 0; i < currentCategory.items.length; i++)
+				if(currentCategory.items[i].name == itemName) {
+					var currentItem = currentCategory.items[i];
+					var images = [];
+					for(var ii = 0; ii < currentItem.images.length; ii++)
+						images.push({image: currentItem.images[ii]});
+					data.item.category = categoryName;
+					data.item.name = itemName;
+					if(images.length) data.item.images = images;
+					data.item.review = currentItem.review;
+					break;
+				}
+			break;
+		}
+	}
+	return data;
 }
