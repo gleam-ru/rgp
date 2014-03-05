@@ -356,13 +356,15 @@ View.prototype.getCategoriesStructure = function() {
 	data.categories = [];
 	for(var key in this.model.categories) if(this.model.categories.hasOwnProperty(key)) {
 		var currentCategory = this.model.categories[key];
-		var items = [];
-		for(var i = 0; i < currentCategory.items.length; i++)
-			items.push({name: currentCategory.items[i].name});
-		data.categories.push({
-			'name': currentCategory.name,
-			'items': items
-		});
+		if(currentCategory.items.length) {
+			var items = [];
+			for(var i = 0; i < currentCategory.items.length; i++)
+				items.push({name: currentCategory.items[i].name});
+			data.categories.push({
+				'name': currentCategory.name,
+				'items': items
+			});
+		}
 	}
 	return data;
 }
