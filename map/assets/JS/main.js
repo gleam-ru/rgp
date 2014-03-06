@@ -1,3 +1,5 @@
+// TODO: вынести шаблоны в HTML
+
 $(document).ready(function() {
 	ymaps.ready(function() {
 		// model

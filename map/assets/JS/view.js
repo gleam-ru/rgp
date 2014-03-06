@@ -1,3 +1,4 @@
+// TODO: заменить врапперы на айди
 var View = function(model, controller) {
 	if(!model) {
 		console.error('unknown model');
@@ -18,7 +19,7 @@ var View = function(model, controller) {
 	this.mapWrapper = "#stuff";
 
 	// left list of categories tree
-	this.categoriesWrapper = "#categories";
+	this.categoriesWrapper = "#tree";
 
 	// page with review of item
 	this.fullReviewWrapper = "#fullReview";
@@ -33,71 +34,73 @@ var View = function(model, controller) {
 
 
 	// categories template (left list)
-	if(!$(this.categoriesWrapper).length) body.append("<div id='"+this.categoriesWrapper.replace('#', '')+"'></div>");
+	this.categoriesId = this.categoriesWrapper.replace('#', '');
+	if(!$(this.categoriesWrapper).length) body.append("<div id='"+this.categoriesId+"'></div>");
 	var categoriesTemplate = Handlebars.compile("\
-		<h1>Выберите категорию</h1>\
-		<ul class='categoriesContainer'>\
-			{{#categories}}\
-			<li>\
-				<div class='expand'></div>\
-				<input type='checkbox' data-category='{{name}}'/>\
-				<div class='categoryName'>\
-					{{name}}\
-				</div>\
-				<ul class='itemsContainer'>\
-					{{#items}}\
-					<li>\
-						<input type='checkbox'\
-							data-category='{{../name}}'\
-							data-item='{{name}}'\
-						/>\
-						<div class='itemName itemClickableName'\
-							data-category='{{../name}}'\
-							data-item='{{name}}'\
-						>\
-							{{name}}\
-						</div>\
-					</li>\
-					{{/items}}\
-				</ul>\
-			</lа если i>\
-			{{/categories}}\
-		</ul>\
+		<div class='closer' data-closer-item='"+this.categoriesId+"'></div>\
+		<h1><nobr>Выберите категорию</nobr></h1>\
+		<div class='"+this.categoriesId+"Wrapper'>\
+			<ul class='categoriesContainer'>\
+				{{#categories}}\
+				<li>\
+					<div class='expand'></div>\
+					<input type='checkbox' data-category='{{name}}'/>\
+					<div class='categoryName'>\
+						{{name}}\
+					</div>\
+					<ul class='itemsContainer'>\
+						{{#items}}\
+						<li>\
+							<input type='checkbox'\
+								data-category='{{../name}}'\
+								data-item='{{name}}'\
+							/>\
+							<div class='itemName itemClickableName'\
+								data-category='{{../name}}'\
+								data-item='{{name}}'\
+							>\
+								{{name}}\
+							</div>\
+						</li>\
+						{{/items}}\
+					</ul>\
+				</lа если i>\
+				{{/categories}}\
+			</ul>\
+		</div>\
 	");
 	$(this.categoriesWrapper).html(categoriesTemplate(this.getCategoriesStructure()));
 
 	// fullReview template 
-	if(!$(this.fullReviewWrapper).length) body.append("<div id='"+this.fullReviewWrapper.replace('#', '')+"'></div>");
+	this.fullReviewId = this.fullReviewWrapper.replace('#', '');
+	if(!$(this.fullReviewWrapper).length) body.append("<div id='"+this.fullReviewId+"'></div>");
 	this.fullReviewTemplate = Handlebars.compile("\
-		{{#item}}\
-		<div class='content'>\
-			<h1>\
-				Категория: <span id='categoryName'>{{category}}</span>\
-				<br />\
-				Объект: <span id='itemName'>{{name}}</span>\
-			</h1>\
-			{{#if images}}\
-			<div class='flexsliderWrapper'>\
-				<div class='flexslider'>\
-					<ul class='slides'>\
-						{{#images}}\
-						<li>\
-							<img src='images/items/{{image}}' />\
-						</li>\
-						{{/images}}\
-					</ul>\
+		<div class='closer' data-closer-item='"+this.fullReviewId+"'></div>\
+		<div class='"+this.fullReviewId+"Wrapper'>\
+			{{#item}}\
+				{{#if images}}\
+					{{#images}}\
+						<a href='images/items/{{image}}' class='highslide' onclick='return hs.expand(this)'>\
+							<img src='images/items/{{image}}' title='Увеличить' />\
+						</a>\
+					{{/images}}\
+				{{/if}}\
+				<div class='content'>\
+					<h1>\
+						Категория: <span id='categoryName'>{{category}}</span>\
+						<br />\
+						Объект: <span id='itemName'>{{name}}</span>\
+					</h1>\
+					{{{review}}}\
 				</div>\
-			</div>\
-			{{/if}}\
-			{{{review}}}\
+				<button class='addItemOnMap' data-category='{{category}}' data-item='{{name}}'>\
+					Добавить на карту\
+				</button>\
+				<button class='removeItemFromMap' data-category='{{category}}' data-item='{{name}}'>\
+					Убрать с карты\
+				</button>\
+			{{/item}}\
 		</div>\
-		<button class='addItemOnMap' data-category='{{category}}' data-item='{{name}}'>\
-			Добавить на карту\
-		</button>\
-		<button class='removeItemFromMap' data-category='{{category}}' data-item='{{name}}'>\
-			Убрать с карты\
-		</button>\
-		{{/item}}\
 	");
 	$(this.fullReviewWrapper).html(this.fullReviewTemplate(this.getItemData()));
 
@@ -111,9 +114,9 @@ var View = function(model, controller) {
 		zoom: 12,
 		behaviors: ["default", "scrollZoom"]
 	});
-	// this.map.controls
-		// .add('zoomControl')
-		// .add('typeSelector');
+	this.map.controls
+		.add('zoomControl')
+		.add('typeSelector');
 
 	this.setUpClickEvents();
 	this.update();
@@ -136,11 +139,24 @@ var View = function(model, controller) {
 View.prototype.setUpClickEvents = function() {
 	var self = this;
 
+	// main-menu
+	$("#categories").click(function() {
+		self.hideFullReview();
+    	$(this).toggleClass("shown");
+		$("#tree").toggle('fast', function() {});
+	});
+
 	$('body').click(function() {
 		if(!self.legalBodyClick) {
-			self.hideFullReview();
+			// self.hideFullReview();
 		}
 		self.legalBodyClick = false;
+	});
+
+	$('.closer').click(function() {
+		var closerItem = $(this).data('closer-item');
+		if(closerItem == self.categoriesId)
+			$('#categories').click();
 	});
 
 	// show full review on click on item name in list
@@ -252,19 +268,20 @@ View.prototype.update = function() {
 // shows/hides window with full review
 View.prototype.hideFullReview = function() {$(this.fullReviewWrapper).css('display', 'none');}
 View.prototype.showFullReview = function(categoryName, itemName) {
+	var self = this;
 	var fullReview = $(this.fullReviewWrapper);
 	fullReview.html(this.fullReviewTemplate(this.getItemData(categoryName, itemName)));
 	fullReview.css("display", "block");
-	// flexSlider init
-	$('.flex-control-nav').remove();
-	$('.flex-direction-nav').remove();
-	$('.flexslider').flexslider();
 
-	// FUNC:
+	// FUNC: full review closer
+	fullReview.find('.closer').unbind().click(function() {
+		self.hideFullReview();
+	});
+	// FUNC: full review buttons
 	fullReview.find('.addItemOnMap, .removeItemFromMap').unbind().bind('click', {'self': this}, this.fullReviewButtonClicked);
-	// FUNC:
-	fullReview.find('a').unbind().bind('click', {'self': this}, this.reviewLinkClicked);
-	// FUNC:
+	// FUNC: full review links
+	fullReview.find('.content a').unbind().bind('click', {'self': this}, this.reviewLinkClicked);
+	// FUNC: stop propogation
 	fullReview.unbind().click(function(event) {event.stopPropagation();});
 }
 

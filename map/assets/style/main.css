@@ -31,113 +31,50 @@ button {
 	-webkit-border-radius: 0 0 50px 50px;
 }
 
+
+
 /**
-* GLOBAL:it would be on every page;
+* GLOBAL:video;
 */
-	/**
-	* GLOBAL:flexslider;
-	*/
-		/*
-		 * jQuery FlexSlider v1.7
-		 * http://flex.madebymufffin.com
-		 *
-		 * Copyright 2011, Tyler Smith
-		 * Free to use under the MIT license.
-		 * http://www.opensource.org/licenses/mit-license.php
-		 */
-		 
-		/* Browser Resets */
-		.flex-container a:active,
-		.flexslider a:active {outline: none;}
-		.slides,
-		.flex-control-nav,
-		.flex-direction-nav {margin: 0; padding: 0; list-style: none;} 
-
-		/* FlexSlider Necessary Styles
-		*********************************/ 
-		.flexslider {width: calc(100% - 9px); margin: 0; padding: 0;}
-		.flexslider .slides > li {display: none;} /* Hide the slides before the JS is loaded. Avoids image jumping */
-		.flexslider .slides img {display: block; max-height: 300px; margin: 0px auto;}
-		.flex-pauseplay span {text-transform: capitalize;}
-
-		/* Clearfix for the .slides element */
-		.slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} 
-		html[xmlns] .slides {display: block;} 
-		* html .slides {height: 1%;}
-
-		/* No JavaScript Fallback */
-		/* If you are not using another script, such as Modernizr, make sure you
-		 * include js that eliminates this class on page load */
-		.no-js .slides > li:first-child {display: block;}
-
-
-		/* FlexSlider Default Theme
-		*********************************/
-		.flexslider {background: #fff; border: 4px solid #ccc; border-bottom: solid 25px #ccc; position: relative; -webkit-border-radius: 5px; -moz-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; zoom: 1;}
-		.flexslider .slides {zoom: 1;}
-		.flexslider .slides > li {position: relative; background: #ccc;}
-		/* Suggested container for "Slide" animation setups. Can replace this with your own, if you wish */
-		.flex-container {zoom: 1; position: relative;}
-
-		/* Caption style */
-		/* IE rgba() hack */
-		.flex-caption {background:none; -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000); zoom: 1;}
-		.flex-caption {width: 96%; padding: 2%; position: absolute; left: 0; bottom: 0; background: rgba(0,0,0,.3); color: #fff; text-shadow: 0 -1px 0 rgba(0,0,0,.3); font-size: 14px; line-height: 18px;}
-
-		/* Direction Nav */
-		.flex-direction-nav li a {width: 52px; height: 52px; margin: -13px 0 0; display: block; background: url(theme/bg_direction_nav.png) no-repeat 0 0; position: absolute; top: 50%; cursor: pointer; text-indent: -9999px;}
-		.flex-direction-nav li a.next {background-position: -52px 0; right: -21px;}
-		.flex-direction-nav li a.prev {background-position: 0 0; left: -20px;}
-		.flex-direction-nav li a.disabled {opacity: .3; filter:alpha(opacity=30); cursor: default;}
-
-		/* Control Nav */
-		.flex-control-nav {width: 100%; position: absolute; bottom: -30px; text-align: center;}
-		.flex-control-nav li {margin: 0 0 0 5px; display: inline-block; zoom: 1; *display: inline;}
-		.flex-control-nav li:first-child {margin: 0;}
-		.flex-control-nav li a {width: 13px; height: 13px; display: block; background: url(theme/bg_control_nav.png) no-repeat 0 0; cursor: pointer; text-indent: -9999px;}
-		.flex-control-nav li a:hover {background-position: 0 -13px;}
-		.flex-control-nav li a.active {background-position: 0 -26px; cursor: default;}
-
-
-
-	/**
-	* GLOBAL:video;
-	*/
-		#ytLayer {
-			min-width: 640px;
-			min-height: 360px;
-			position: fixed;
-			z-index: 40;
-			top: 200px;
-			left: calc(50% - 320px);
-			display: none;
-		}
-		#shadow {
-			display: none;
-			background: rgba(0,0,0, 0.4);
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			top: 0; left: 0;
-			z-index: 35;
-		}
+	#ytLayer {
+		min-width: 640px;
+		min-height: 360px;
+		position: fixed;
+		z-index: 40;
+		top: 200px;
+		left: calc(50% - 320px);
+		display: none;
+	}
+	#shadow {
+		display: none;
+		background: rgba(0,0,0, 0.4);
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0; left: 0;
+		z-index: 35;
+	}
 
 
 
 /**
 * PAGE:mainpage;
 */
+#fullReviewWrapper {
+	height: calc(100% - 400px);
+	overflow: auto;
+	position: relative;
+}
+
 #fullReview {
 	display: none;
 	position: absolute;
-	top:0;
+	top: 200px;
 	width: 700px;
 	left: calc(50% - 365px);
 	z-index: 30;
 	padding: 10px;
-	height: calc(100% - 20px);
-	overflow: auto;
+	height: calc(100% - 400px);
 	background: rgba(255, 255, 255, 0.8);
 	line-height: 150%;
 	text-align: justify;
@@ -146,6 +83,33 @@ button {
 #fullReview button {
 	margin-top: 20px;
 }
+
+
+
+.highslide img {
+	max-width: 200px;
+	max-height: 150px;
+	margin-bottom: -6px;
+}
+.highslide {
+	cursor: pointer;
+	padding: 2px;
+	margin: 0px;
+	list-style: none;
+
+	position: absolute;
+	top: -50px;
+	right: 50px;
+	background: #fff;
+	box-shadow: 0 0 5px 0px rgba(0,0,0,0.7);
+
+	-moz-transform: scale(1) rotate(10deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-transform: scale(1) rotate(10deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-o-transform: scale(1) rotate(10deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-ms-transform: scale(1) rotate(10deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	transform: scale(1) rotate(10deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+}
+
 
 #stuff {
 	width: 100%;
@@ -168,37 +132,42 @@ button {
 
 
 
-
-#categories {
+.treeWrapper {
+	overflow: auto;
+	max-height: 700px;
+	padding: 25px;
+	padding-top: 0px;
+}
+#tree {
 	position: absolute;
+	top: 100px;
+	left: 50px;
 	z-index: 25;
-	top: 0px;
-	left: 0px;
 	min-width: 250px;
 	max-width: 400px;
-	padding: 10px;
-	padding-right: 40px;
-	height: calc(100% - 20px);
-	background: rgba(255,255,255, 0.8);
-	overflow: auto;
+	padding-right: 0px;
+	/*max-height: calc(100% - 200px);*/
+	/*height: calc(100% - 20px);*/
+	background: rgba(255,255,255, 0.7);
+	/*overflow: auto;*/
 	box-shadow: 0 0 5px 0px rgba(0,0,0,0.7);
 }
-#categories h1 {
+#tree h1 {
 	font-size: 25px;
-	margin: 0px 0px 10px 0px;
+	margin: 20px 30px 15px;
 }
-#categories  input, .itemName, .categoryName {
+#tree  input, .itemName, .categoryName {
 	cursor: pointer;
 	padding-left: 20px;
 }
-#categories input {
+#tree input {
 	float: left;
 	margin-top: 8px;
 }
-#categories li:hover {
+#tree li:hover {
 	color: #000;
 }
-#categories li {
+#tree li {
 	list-style: none;
 	line-height: 30px;
 	vertical-align: middle;
@@ -208,7 +177,7 @@ button {
 .categoryName {
 	font-size: 23px;
 }
-#categories .opened {
+#tree .opened {
 	color: #000;
 }
 .opened .expand {
@@ -224,11 +193,74 @@ button {
     /*display: inline-block;*/
     float: left;
 }
-.categoriesContainer>li {
+.treeContainer>li {
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
 .itemsContainer {
 	display: none;
 	padding-left: 35px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*#tree {display: none;}*/
+
+#mainMenu {
+	position: absolute;
+	top: 0px;
+	width: 500px;
+	padding: 0px 0px;
+	left: calc(50% - 250px);
+	z-index: 100;
+	background: #fff;
+	border-radius: 0 0 5px 5px;
+	box-shadow: 0 0 3px 1px rgba(0,0,0,0.5);
+	text-align: center;
+}
+#mainMenu li {
+	cursor: pointer;
+	text-align: center;
+	padding: 0px 25px;
+	height: 50px;
+	line-height: 50px;
+	vertical-align: middle;
+	display: inline-block;
+	font-size: 25px;
+}
+/*#mainMenu li:hover, #mainMenu .shown {*/
+/* TODO: отдельная картинка для ховера; */
+#mainMenu .shown {
+	background: url('images/menuhover.png');
+	background-position: 50% 0px;
+}
+
+
+
+
+
+.closer:hover {opacity: 1;}
+.closer {
+	position: absolute;
+	top: -16px;
+	right: -16px;
+	width: 32px; height: 32px;
+	background: url('images/closer.png');
+	background-position: 50% 50%;
+	opacity: 0.7;
+	cursor: pointer;
 }
