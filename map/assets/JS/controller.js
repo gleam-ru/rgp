@@ -1,4 +1,4 @@
-var Controller = function(sightsModel, routeModel) {
+﻿var Controller = function(sightsModel, routeModel) {
 	if(!sightsModel || !routeModel) {
 		console.error('unknown model');
 		return;
@@ -10,7 +10,7 @@ var Controller = function(sightsModel, routeModel) {
 	**/
 		this.addCategory(new Category({
 			name: "Гостиницы",
-			icon: "assets/style/images/icons/_camping.png"
+			icon: "assets/style/images/icons/camping.png"
 		}));
 
 			this.addItem(new Item({
