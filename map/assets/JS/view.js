@@ -307,7 +307,10 @@ View.prototype.update = function() {
 						// balloonContent: currentItem.review
 					},
 					{
-						preset: currentCategory.icon
+				        iconLayout: 'default#image',
+				        iconImageHref: currentCategory.icon,
+				        iconImageSize: [32, 37],
+				        iconImageOffset: [-15, -32]
 					}
 				);
 				// FUNC: placemark clicked

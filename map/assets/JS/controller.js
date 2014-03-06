@@ -10,7 +10,7 @@ var Controller = function(sightsModel, routeModel) {
 	**/
 		this.addCategory(new Category({
 			name: "Гостиницы",
-			icon: "twirl#campingIcon"
+			icon: "assets/style/images/icons/_camping.png"
 		}));
 
 			this.addItem(new Item({
@@ -58,7 +58,7 @@ var Controller = function(sightsModel, routeModel) {
 
 		this.addCategory(new Category({
 			name: "Музеи",
-			icon: "twirl#houseIcon"
+			icon: "assets/style/images/icons/_museum.png"
 		}));
 
 			this.addItem(new Item({
@@ -105,7 +105,7 @@ var Controller = function(sightsModel, routeModel) {
 
 		this.addCategory(new Category({
 			name: "Развлечения",
-			icon: "twirl#theaterIcon"
+			icon: "assets/style/images/icons/_intertaiment.png"
 		}));
 
 			this.addItem(new Item({
@@ -161,7 +161,7 @@ var Controller = function(sightsModel, routeModel) {
 
 		this.addCategory(new Category({
 			name: "Спорт",
-			icon: "twirl#gymIcon"
+			icon: "assets/style/images/icons/_sports.png"
 		}));
 
 			this.addItem(new Item({
@@ -205,7 +205,7 @@ var Controller = function(sightsModel, routeModel) {
 
 		this.addCategory(new Category({
 			name: "Аптеки",
-			icon: "twirl#hospitalIcon"
+			icon: "assets/style/images/icons/_pharmacy.png"
 		}));
 
 			this.addItem(new Item({
@@ -345,7 +345,7 @@ var Controller = function(sightsModel, routeModel) {
 
 		this.addCategory(new Category({
 			name: "Банкоматы",
-			icon: "twirl#bankIcon"
+			icon: "assets/style/images/icons/_bank.png"
 		}));
 
 			this.addItem(new Item({
@@ -503,7 +503,7 @@ var Controller = function(sightsModel, routeModel) {
 
 		this.addCategory(new Category({
 			name: "Еда",
-			icon: "twirl#cafeIcon"
+			icon: "assets/style/images/icons/_food.png"
 		}));
 
 			this.addItem(new Item({
@@ -599,7 +599,7 @@ var Controller = function(sightsModel, routeModel) {
 
 		this.addCategory(new Category({
 			name: "Памятники",
-			icon: "twirl#mushroomIcon"
+			icon: "assets/style/images/icons/_monuments.png"
 		}));
 
 			this.addItem(new Item({
@@ -684,12 +684,12 @@ var Controller = function(sightsModel, routeModel) {
 
 
 		this.addCategory(new Category({
-			name: "Сооружения",
-			icon: "twirl#buildingsIcon"
+			name: "Достопримечательности",
+			icon: "assets/style/images/icons/_sights.png"
 		}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.736383, 37.120833], 
 				name: "Водосливная плотина Иваньковской ГЭС",
 				review: "" +
@@ -700,7 +700,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.781775 ,37.238079], 
 				name: "Архитектура Дубны",
 				review: "" +
@@ -711,7 +711,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.716183, 37.132017], 
 				name: "Паромная переправа №1 через канал им. Москвы, заградительные ворота и маяк",
 				review: "" +
@@ -722,7 +722,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.697533, 37.175267], 
 				name: "Пересечение р. Сестра и канала им. Москвы",
 				review: "" +
@@ -733,7 +733,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.784031, 37.196868], 
 				name: "Женьшеневая плантация",
 				review: "" +
@@ -744,7 +744,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.829917, 37.062517], 
 				name: "Брошенный купол антенны локатора ('шар')",
 				review: "" +
@@ -755,7 +755,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.724683, 37.1851], 
 				name: "Храм Всех святых",
 				review: "" +
@@ -766,7 +766,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.735843,37.251385], 
 				name: "Центр космической связи 'Дубна'",
 				review: "" +
@@ -777,7 +777,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.754758, 37.151596], 
 				name: "Храм Смоленской иконы Божией матери",
 				review: "" +
@@ -788,7 +788,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.730283, 37.141117], 
 				name: "Храм рождества Иоанна Предтечи",
 				review: "" +
@@ -799,7 +799,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.740204, 37.224982], 
 				name: "Международный университет природы, общества и человека 'Дубна'",
 				review: "" +
@@ -810,7 +810,7 @@ var Controller = function(sightsModel, routeModel) {
 			}));
 
 			this.addItem(new Item({
-				category: "Сооружения",
+				category: "Достопримечательности",
 				pos: [56.730283, 37.140983], 
 				name: "Этнографическо-туристический центр 'Иваньковское подворье'",
 				review: "" +
