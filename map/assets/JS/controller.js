@@ -827,19 +827,7 @@ var Controller = function(model) {
 	**/
 	this.cookieName = 'route';
 	this.route = new Route();
-	if($.cookie(this.cookieName)) {
-		var lastRoute = $.cookie(this.cookieName);
-
-		var re_g = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/g;
-		var re_i = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/i;
-
-		var categoryItemStringList = lastRoute.match(re_g);
-		for(var i = 0; i < categoryItemStringList.length; i++) {
-			var matches = categoryItemStringList[i].match(re_i);
-			if(matches.length > 2)
-				this.addItemToRoute([matches[1], matches[2]]);
-		}
-	}
+	this.restoreRouteFromCookies();
 
 	return this;
 }
@@ -937,8 +925,6 @@ Controller.prototype.setItemsState = function(categoryItemList, state) {
 ***
 *********/
 Controller.prototype.addItemToRoute = function(categoryName, itemName) {
-	console.log(this.route.toString());
-	
 	if(!categoryName || !categoryName) return;
 
 	var ableToAdd = true;
@@ -951,4 +937,22 @@ Controller.prototype.addItemToRoute = function(categoryName, itemName) {
 		this.route.items.push([categoryName, itemName]);
 
 	$.cookie(this.cookieName, this.route.toString());
+}
+
+Controller.prototype.restoreRouteFromCookies = function() {
+	if($.cookie(this.cookieName)) {
+		var lastRoute = $.cookie(this.cookieName);
+
+		var re_g = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/g;
+		var re_i = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/i;
+
+		var categoryItemStringList = lastRoute.match(re_g);
+		for(var i = 0; i < categoryItemStringList.length; i++) {
+			var matches = categoryItemStringList[i].match(re_i);
+			if(matches.length > 2)
+				this.addItemToRoute(matches[1], matches[2]);
+		}
+		console.log('route restored:');
+		console.log(this.route.toString());
+	}
 }
