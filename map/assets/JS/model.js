@@ -22,6 +22,7 @@ var Item = function(obj) {
 
 
 var Category = function(obj) {
+	if(!obj) obj = {};
 	this.name = obj.name || "default";
 
 	// http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/option.presetStorage.xml
@@ -31,20 +32,16 @@ var Category = function(obj) {
 
 	return this;
 }
-Category.prototype.addItem = function(item) {
-	if(!item) return;
-	this.items.push(item);
-}
 
 
 
 var Stuff = function() {
-	var defaultCategory = new Category({
-		name: "default",
-		icon: "twirl#grayDotIcon"
-	});
-	this.categories = {'default': defaultCategory};
+	this.categories = {};
 
+	// default category:
+	var defaultCategory = new Category();
+	this.categories[defaultCategory.name] = defaultCategory;
+	
 	return this;
 }
 
@@ -60,10 +57,12 @@ var Stuff = function() {
 *********/
 
 var Route = function() {
-	this.items = [[]]; // list of category-items [categoryName, itemName]
+	this.items = []; // list of category-items [categoryName, itemName]
 	return this;
 }
-Route.prototype.addItem = function(categoryName, itemName) {
-	if(!categoryName || !item) return;
-	this.items.push([categoryName, itemName]);
+Route.prototype.toString = function() {
+	var routeString = "";
+	for(var i = 0; i < this.items.length; i++)
+		routeString+='<CATEGORY->'+this.items[i][0]+'<ITEM->'+this.items[i][1];
+	return routeString;
 }

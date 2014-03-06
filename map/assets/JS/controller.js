@@ -825,9 +825,21 @@ var Controller = function(model) {
 	/***
 	* Прокладывание маршрутов
 	**/
-	$.cookie('cookie_name', new Route(), {
-		path: '/',
-	});
+	this.cookieName = 'route';
+	this.route = new Route();
+	if($.cookie(this.cookieName)) {
+		var lastRoute = $.cookie(this.cookieName);
+
+		var re_g = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/g;
+		var re_i = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/i;
+
+		var categoryItemStringList = lastRoute.match(re_g);
+		for(var i = 0; i < categoryItemStringList.length; i++) {
+			var matches = categoryItemStringList[i].match(re_i);
+			if(matches.length > 2)
+				this.addItemToRoute([matches[1], matches[2]]);
+		}
+	}
 
 	return this;
 }
@@ -853,12 +865,13 @@ Controller.prototype.addCategory = function(category) {
 Controller.prototype.addItem = function(item) {
 	if(item) {
 		var itemCategoryName = item.category;
+		// TODO: возможность работы с одинаковыми именами
+		var ableToAdd = true; // объекта с таким именем еще нет в категории
 		var added = false;
 		for(var key in this.model.categories) if(this.model.categories.hasOwnProperty(key)) {
+			ableToAdd = true;
 			var currentCategory = this.model.categories[key];
 			if(currentCategory.name == itemCategoryName) {
-				// TODO: возможность работы с одинаковыми именами
-				var ableToAdd = true; // объекта с таким именем еще нет в категории
 				for(var i = 0; i < currentCategory.items.length; i++) {
 					if(currentCategory.items[i].name == item.name) {
 						ableToAdd = false;
@@ -923,6 +936,19 @@ Controller.prototype.setItemsState = function(categoryItemList, state) {
 *** MANIPULATING WITH USER DATA
 ***
 *********/
-// Controller.prototype.addItemToRoute = function(categoryName, itemName) {
+Controller.prototype.addItemToRoute = function(categoryName, itemName) {
+	console.log(this.route.toString());
+	
+	if(!categoryName || !categoryName) return;
 
-// }
+	var ableToAdd = true;
+	for(var i = 0; i < this.route.items.length; i++)
+		if(this.route.items[i][0] == categoryName && this.route.items[i][1] == itemName) {
+			ableToAdd = false;
+			break;
+		}
+	if(ableToAdd)
+		this.route.items.push([categoryName, itemName]);
+
+	$.cookie(this.cookieName, this.route.toString());
+}
