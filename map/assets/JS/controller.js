@@ -1,9 +1,9 @@
-var Controller = function(model) {
-	if(!model) {
+var Controller = function(sightsModel, routeModel) {
+	if(!sightsModel || !routeModel) {
 		console.error('unknown model');
 		return;
 	}
-	this.model = model;
+	this.model = sightsModel;
 
 	/***
 	* Заполнение модели
@@ -826,7 +826,7 @@ var Controller = function(model) {
 	* Прокладывание маршрутов
 	**/
 	this.cookieName = 'route';
-	this.route = new Route();
+	this.route = routeModel;
 	this.restoreRouteFromCookies();
 
 	return this;
@@ -921,22 +921,28 @@ Controller.prototype.setItemsState = function(categoryItemList, state) {
 
 /********
 ***
-*** MANIPULATING WITH USER DATA
+*** COOKIES
 ***
 *********/
+Controller.prototype.updateCookies = function() {$.cookie(this.cookieName, this.route.toString());}
+
 Controller.prototype.addItemToRoute = function(categoryName, itemName) {
+	if(!categoryName || !categoryName) return false;
+
+	for(var i = 0; i < this.route.items.length; i++)
+		if(this.route.items[i][0] == categoryName && this.route.items[i][1] == itemName)
+			return false;
+	this.route.items.push([categoryName, itemName]);
+	this.updateCookies();
+	return true;
+}
+Controller.prototype.removeItemFromRoute = function(categoryName, itemName) {
 	if(!categoryName || !categoryName) return;
 
-	var ableToAdd = true;
 	for(var i = 0; i < this.route.items.length; i++)
-		if(this.route.items[i][0] == categoryName && this.route.items[i][1] == itemName) {
-			ableToAdd = false;
-			break;
-		}
-	if(ableToAdd)
-		this.route.items.push([categoryName, itemName]);
-
-	$.cookie(this.cookieName, this.route.toString());
+		if(categoryName == this.route.items[i][0] && itemName == this.route.items[i][1])
+			this.route.items.splice(i, 1);
+	this.updateCookies();
 }
 
 Controller.prototype.restoreRouteFromCookies = function() {
@@ -952,7 +958,5 @@ Controller.prototype.restoreRouteFromCookies = function() {
 			if(matches.length > 2)
 				this.addItemToRoute(matches[1], matches[2]);
 		}
-		console.log('route restored:');
-		console.log(this.route.toString());
 	}
 }

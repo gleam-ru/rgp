@@ -1,12 +1,13 @@
 // TODO: вынести шаблоны в HTML
-
+// TODO: много картинок в описании
 $(document).ready(function() {
 	ymaps.ready(function() {
 		// model
-		window.stuff = new Stuff();
+		window.sights = new Sights();
+		window.route = new Route();
 		// fills model in constructor
-		window.stuffController = new Controller(stuff);
+		window.controller = new Controller(sights, route);
 		// on creation needed filled model
-		window.stuffView = new View(stuff, stuffController);
+		window.sightsView = new View(sights, route, controller);
 	});
 });

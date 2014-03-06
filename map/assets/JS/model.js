@@ -35,7 +35,7 @@ var Category = function(obj) {
 
 
 
-var Stuff = function() {
+var Sights = function() {
 	this.categories = {};
 
 	// default category:

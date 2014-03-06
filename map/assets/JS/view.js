@@ -1,10 +1,13 @@
 // TODO: заменить врапперы на айди
-var View = function(model, controller) {
-	if(!model) {
+var View = function(sightsModel, routeModel, controller) {
+	if(!sightsModel || !routeModel) {
 		console.error('unknown model');
 		return;
 	}
-	this.model = model;
+	this.model = sightsModel;
+	this.route = routeModel;
+
+
 
 	if(!controller) {
 		console.error('unknown controller');
@@ -16,15 +19,15 @@ var View = function(model, controller) {
 
 	var body = $('body');
 	
-	this.mapWrapper = "#stuff";
+	this.mapWrapper = "#sights";
 
 	// left list of categories tree
-	this.categoriesWrapper = "#tree";
+	this.categoriesId = "tree";
 
 	// page with review of item
 	this.fullReviewWrapper = "#fullReview";
 
-	this.routeWrapperId = "routeWrapper";
+	this.processRouteId = "processRoute";
 
 	// youtube-frame
 	this.ytLayer = "#ytLayer";
@@ -33,11 +36,14 @@ var View = function(model, controller) {
 	// event.stopPropagation() not works correctly
 	this.legalBodyClick = false;
 
+	this.routePointsCounterId = 'routePointsCount';
 
+
+	// main-menu 
+	this.updateRoutePointsCounter();
 
 	// categories template (left list)
-	this.categoriesId = this.categoriesWrapper.replace('#', '');
-	if(!$(this.categoriesWrapper).length) body.append("<div id='"+this.categoriesId+"'></div>");
+	if(!$('#'+this.categoriesId).length) body.append("<div id='"+this.categoriesId+"'></div>");
 	var categoriesTemplate = Handlebars.compile("\
 		<div class='closer' data-closer-item='"+this.categoriesId+"'></div>\
 		<h1><nobr>Выберите категорию</nobr></h1>\
@@ -71,7 +77,7 @@ var View = function(model, controller) {
 			</ul>\
 		</div>\
 	");
-	$(this.categoriesWrapper).html(categoriesTemplate(this.getCategoriesStructure()));
+	$('#'+this.categoriesId).html(categoriesTemplate(this.getCategoriesStructure()));
 
 	// fullReview template 
 	this.fullReviewId = this.fullReviewWrapper.replace('#', '');
@@ -96,6 +102,9 @@ var View = function(model, controller) {
 				<div class='content'>\
 					{{{review}}}\
 				</div>\
+				<button class='addItemToRoute' data-category='{{category}}' data-item='{{name}}'>\
+					Добавить в маршрут\
+				</button>\
 				<button class='addItemOnMap' data-category='{{category}}' data-item='{{name}}'>\
 					Добавить на карту\
 				</button>\
@@ -108,13 +117,39 @@ var View = function(model, controller) {
 	$(this.fullReviewWrapper).html(this.fullReviewTemplate(this.getItemData()));
 
 	// route template
-	if(!$('#'+this.routeWrapperId).length) body.append("<div id='"+this.routeWrapperId+"'></div>");
+	if(!$('#'+this.processRouteId).length) body.append("<div class='' id='"+this.processRouteId+"'></div>");
 	this.routeTemplate = Handlebars.compile("\
-		<div class='closer' data-closer-item='"+this.routeWrapperId+"'></div>\
-		<h1><nobr>Объекты, отмеченные для посещения:</nobr></h1>\
-		<div class='"+this.routeWrapperId+"Wrapper'>\
-		</div>\
+		<div class='closer' data-closer-item='"+this.processRouteId+"'></div>\
+		{{#if items}}\
+			<h1><nobr>Редактирование маршрута</nobr></h1>\
+			<div class='"+this.processRouteId+"Wrapper'>\
+				<div class='routeItems'>\
+					{{#items}}\
+						<div class='item'>\
+							<div class='positionName' data-category='{{categoryName}}' data-item='{{itemName}}'>\
+								{{categoryName}}: {{itemName}}\
+							</div>\
+							<div class='positionButtons'>\
+								<button class='positionMoveDown' data-category='{{categoryName}}' data-item='{{itemName}}'>\
+									Вниз\
+								</button>\
+								<button class='positionMoveUp' data-category='{{categoryName}}' data-item='{{itemName}}'>\
+									Вверх\
+								</button>\
+								<button class='positionDelete' data-category='{{categoryName}}' data-item='{{itemName}}'>\
+									Удалить\
+								</button>\
+							</div>\
+						</div>\
+					{{/items}}\
+				</div>\
+				<button id='routeComplete'>Проложить маршрут</button>\
+			</div>\
+		{{else}}\
+			<h1>Выберите объекты, которые хотите посетить!</h1>\
+		{{/if}}\
 	");
+	$('#'+this.processRouteId).html(this.routeTemplate(this.getRouteData()));
 
 
 
@@ -160,15 +195,24 @@ View.prototype.setUpClickEvents = function() {
 
 	$('.closer').click(function() {
 		var closerItem = $(this).data('closer-item');
-		if(closerItem == self.categoriesId)
+		if(closerItem == self.categoriesId) {
 			$('#categories').click();
+		}
 	});
 
 	// main-menu
 	$("#categories").click(function() {
 		self.hideFullReview();
-    	$(this).toggleClass("shown");
-		$("#tree").toggle('fast', function() {});
+		$(this).toggleClass("shown");
+		$('#'+self.categoriesId).toggle('fast', function() {});
+	});
+	$("#route").click(function() {
+		self.hideFullReview();
+		$(this).toggleClass("shown");
+		if($(this).hasClass("shown"))
+			self.showRoute();
+		else
+			self.hideRoute();
 	});
 
 	// show full review on click on item name in list
@@ -221,11 +265,11 @@ View.prototype.setUpClickEvents = function() {
 
 	// categories-toggler
 	$(".expand, .categoryName").on('click', function(event) {
-	    var el = $(event.target);
-	    var CategoryNode = el.parent();
-	    window.itemsNode = CategoryNode.find(".itemsContainer");
-	    itemsNode.parent().toggleClass("opened");
-	    itemsNode.toggle('fast', function() {});
+		var el = $(event.target);
+		var CategoryNode = el.parent();
+		window.itemsNode = CategoryNode.find(".itemsContainer");
+		itemsNode.parent().toggleClass("opened");
+		itemsNode.toggle('normal', function() {});
 	});
 }
 
@@ -269,8 +313,8 @@ View.prototype.update = function() {
 				// FUNC: placemark clicked
 				placemark.events.add('click', placemarkClicked, {item:currentItem, category:currentCategory})
 				function placemarkClicked() {
-				    self.legalBodyClick = true;
-				    self.showFullReview(this.category.name, this.item.name);
+					self.legalBodyClick = true;
+					self.showFullReview(this.category.name, this.item.name);
 				}
 				this.map.geoObjects.add(placemark);
 			}
@@ -279,22 +323,65 @@ View.prototype.update = function() {
 }
 
 // shows/hides window with full review
-View.prototype.hideFullReview = function() {$(this.fullReviewWrapper).css('display', 'none');}
+View.prototype.hideFullReview = function() {$(this.fullReviewWrapper).hide('fast');}
 View.prototype.showFullReview = function(categoryName, itemName) {
 	var self = this;
+
+	this.hideRoute();
 	var fullReview = $(this.fullReviewWrapper);
 	fullReview.html(this.fullReviewTemplate(this.getItemData(categoryName, itemName)));
-	fullReview.css("display", "block");
+	fullReview.show('normal');
 
 	// FUNC: stop propogation
 	fullReview.unbind().click(function(event) {event.stopPropagation();});
 	// FUNC: full review closer
 	fullReview.find('.closer').unbind().click(function() {self.hideFullReview();});
 	// FUNC: full review buttons
-	fullReview.find('.addItemOnMap, .removeItemFromMap').unbind().bind('click', {'self': this}, this.fullReviewButtonClicked);
+	fullReview.find('button').unbind().bind('click', {'self': this}, this.fullReviewButtonClicked);
 	// FUNC: full review links
 	fullReview.find('.content a').unbind().bind('click', {'self': this}, this.reviewLinkClicked);
 }
+
+View.prototype.hideRoute = function() {
+	$('#'+this.processRouteId).hide('fast');
+	$('#route').removeClass('shown');
+}
+View.prototype.showRoute = function() {
+	var self = this;
+	var route = $('#'+this.processRouteId);
+	route.html(this.routeTemplate(this.getRouteData()));
+	route.show('normal');
+	// FUNC: route closer
+	route.find('.closer').unbind().click(function() {self.hideRoute();});
+	// FUNC: view item from route processing window
+	route.find('.positionName').unbind().click(function() {
+		var categoryName = $(this).data('category');
+		var itemName = $(this).data('item');
+		self.showFullReview(categoryName, itemName);
+	});
+	// FUNC: processing route event
+	route.find('#routeComplete').unbind().click(function() {
+		console.log("Проложить маршрут");
+	});
+	// FUNC:
+	route.find('.positionDelete').unbind().click(function() {
+		var categoryName = $(this).data('category');
+		var itemName = $(this).data('item');
+		self.controller.removeItemFromRoute(categoryName, itemName);
+		self.updateRoutePointsCounter();
+		self.showRoute();
+	});
+	// FUNC:
+	route.find('.positionMoveUp').unbind().click(function() {
+		console.log("Переместить пункт маршрута вверх");
+	});
+	// FUNC:
+	route.find('.positionMoveDown').unbind().click(function() {
+		console.log("Переместить пункт маршрута вниз");
+	});
+}
+
+
 
 // if youtube link - createCinemaView(), else - goto href
 View.prototype.reviewLinkClicked = function(event) {
@@ -351,16 +438,36 @@ View.prototype.fullReviewButtonClicked = function(event) {
 	var itemName = el.data('item');
 	var categoryName = el.data('category');
 
-	var enableItem = $(this).hasClass("addItemOnMap") ? true : false;
-	$(self.categoriesWrapper).find('.itemName').each(function() {
-		if($(this).data('item') == itemName && $(this).data('category') == categoryName) {
-			$(this).parent().find('input').prop('checked', enableItem).change();
-			return;
-		}
-	});
-	self.hideFullReview();
+	if(el.hasClass('addItemOnMap')) {
+		$('#'+self.categoriesId).find('.itemName').each(function() {
+			if($(this).data('item') == itemName && $(this).data('category') == categoryName) {
+				$(this).parent().find('input').prop('checked', true).change();
+				return;
+			}
+		});
+		self.hideFullReview();
+	}
+	else if(el.hasClass('removeItemFromMap')) {
+		$('#'+self.categoriesId).find('.itemName').each(function() {
+			if($(this).data('item') == itemName && $(this).data('category') == categoryName) {
+				$(this).parent().find('input').prop('checked', false).change();
+				return;
+			}
+		});
+		self.hideFullReview();
+	}
+	else if(el.hasClass('addItemToRoute')) {
+		// TODO: ошибка о невозможности добавления
+		if(self.controller.addItemToRoute(categoryName, itemName))
+			self.updateRoutePointsCounter();
+		el.hide();
+	}
+
 }
 
+View.prototype.updateRoutePointsCounter = function() {
+	$('#'+this.routePointsCounterId).html('('+this.route.items.length+')')
+}
 
 
 
@@ -425,6 +532,25 @@ View.prototype.getItemData = function(categoryName, itemName) {
 				}
 			break;
 		}
+	}
+	return data;
+}
+
+View.prototype.getRouteData = function() {
+	// returned data will be like this:
+	var data = {
+		items: [{
+			categoryName: "",
+			itemName: ""
+		}]
+	}
+	data = {};
+	data.items = [];
+	for(var i = 0; i < this.route.items.length; i++) {
+		data.items.push({
+			categoryName: this.route.items[i][0],
+			itemName: this.route.items[i][1]
+		});
 	}
 	return data;
 }
