@@ -20,7 +20,7 @@
 				review: "" +
 					"<p><a href='http://www.hotel-dubna.ru/'>Сайт гостиницы</a></p>",
 				images: [
-					"gost_du_c3.png"
+					"gostduc3.png"
 				]
 			}));
 			this.addItem(new Item({
@@ -30,7 +30,7 @@
 				review: "" +
 					"<p><a href='http://www.parkhoteldubna.ru/'>Сайт гостиницы</a></p>",
 				images: [
-					"park_otel.png"
+					"parkotel.png"
 				]
 			}));
 			this.addItem(new Item({
@@ -40,7 +40,7 @@
 				review: "" +
 					"<p><a href='http://hotel.oezdubna.ru/'>Сайт гостиницы</a></p>",
 				images: [
-					"rez_otel.png"
+					"rezotel.png"
 				]
 			}));
 			this.addItem(new Item({
@@ -50,7 +50,7 @@
 				review: "" +
 					"<p><a href='http://www.hotel-dubna.ru/'>Сайт гостиницы</a></p>",
 				images: [
-					"gost_du_c1.png"
+					"gostduc1.png"
 				]
 			}));
 
@@ -58,7 +58,7 @@
 
 		this.addCategory(new Category({
 			name: "Музеи",
-			icon: "assets/style/images/icons/_museum.png"
+			icon: "assets/style/images/icons/museum.png"
 		}));
 
 			this.addItem(new Item({
@@ -68,7 +68,7 @@
 				review: "" +
 					"<p>Музей посвящен непосредственно истории, научным достижениям и научно-просветительской деятельности института. В экспозиции макеты научных установок, приборы, фото и пр. материалы, в том числе личный микроскоп И.В. Курчатова.</p>",
 				images: [ 
-					"mysei_jinr.png"
+					"myseijinr.png"
 				]
 			}));
 
@@ -105,7 +105,7 @@
 
 		this.addCategory(new Category({
 			name: "Развлечения",
-			icon: "assets/style/images/icons/_intertaiment.png"
+			icon: "assets/style/images/icons/intertaiment.png"
 		}));
 
 			this.addItem(new Item({
@@ -161,7 +161,7 @@
 
 		this.addCategory(new Category({
 			name: "Спорт",
-			icon: "assets/style/images/icons/_sports.png"
+			icon: "assets/style/images/icons/sports.png"
 		}));
 
 			this.addItem(new Item({
@@ -205,7 +205,7 @@
 
 		this.addCategory(new Category({
 			name: "Аптеки",
-			icon: "assets/style/images/icons/_pharmacy.png"
+			icon: "assets/style/images/icons/pharmacy.png"
 		}));
 
 			this.addItem(new Item({
@@ -345,7 +345,7 @@
 
 		this.addCategory(new Category({
 			name: "Банкоматы",
-			icon: "assets/style/images/icons/_bank.png"
+			icon: "assets/style/images/icons/bank.png"
 		}));
 
 			this.addItem(new Item({
@@ -503,7 +503,7 @@
 
 		this.addCategory(new Category({
 			name: "Еда",
-			icon: "assets/style/images/icons/_food.png"
+			icon: "assets/style/images/icons/food.png"
 		}));
 
 			this.addItem(new Item({
@@ -599,7 +599,7 @@
 
 		this.addCategory(new Category({
 			name: "Памятники",
-			icon: "assets/style/images/icons/_monuments.png"
+			icon: "assets/style/images/icons/monuments.png"
 		}));
 
 			this.addItem(new Item({
@@ -620,7 +620,7 @@
 				review: "" +
 					"<p>Достаточно интересные настенные рисунки встречаются по всему городу в самых неожиданных местах. Самым интересным зданием, со всех сторон украшенных 'росписями' является книжный магазин на ул. Сахарова, д. 1, стр. 2.</p>",
 				images: [ 
-					"nastennye_risunki.png"
+					"nastennyerisunki.png"
 				]
 			}));
 
@@ -685,7 +685,7 @@
 
 		this.addCategory(new Category({
 			name: "Достопримечательности",
-			icon: "assets/style/images/icons/_sights.png"
+			icon: "assets/style/images/icons/sights.png"
 		}));
 
 			this.addItem(new Item({
@@ -728,7 +728,7 @@
 				review: "" +
 					"<p>Место расположено на въезде в г. Дубна. Интересно инженерным решением, когда весь поток реки заведен в трубу и пропущен под каналом. Высота дамбы порядка 18 м.</p>",
 				images: [ 
-					"Peresechenie_rek.png"
+					"Peresechenierek.png"
 				]
 			}));
 
@@ -761,7 +761,7 @@
 				review: "" +
 					"<p>2007 г. Действующий.</p>",
 				images: [ 
-					"hram_vseh_svyatyh.png"
+					"hramvsehsvyatyh.png"
 				]
 			}));
 
@@ -783,7 +783,7 @@
 				review: "" +
 					"<p>Деревянный храм современной постройки.</p>",
 				images: [ 
-					"hram_smolenskoi_ikony.png"
+					"hramsmolenskoiikony.png"
 				]
 			}));
 
@@ -794,7 +794,7 @@
 				review: "" +
 					"<p>Нач. строительства - 2000 г. Действующий.</p>",
 				images: [ 
-					"hram_rozhdestva_predtechi.png"
+					"hramrozhdestvapredtechi.png"
 				]
 			}));
 
@@ -816,7 +816,7 @@
 				review: "" +
 					"<p>Амбициозный туристический проект на территории г. Дубна. Планировался интерактивный музей деревянного зодчества под открытым небом, гостиница на 70 мест, музей верхневолжского быта и пр. инфраструктура. В настоящее время представляет из себя брошенную стройплощадку, огороженную высоким забором.</p>",
 				images: [ 
-					"tsentr_ivankovskoe_podvore.png"
+					"tsentrivankovskoepodvore.png"
 				]
 			}));
 
@@ -949,12 +949,12 @@ Controller.prototype.restoreRouteFromCookies = function() {
 	if($.cookie(this.cookieName)) {
 		var lastRoute = $.cookie(this.cookieName);
 
-		var re_g = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/g;
-		var re_i = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/i;
+		var reg = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/g;
+		var rei = /<CATEGORY\->([^<]+)<ITEM\->([^<]+)/i;
 
-		var categoryItemStringList = lastRoute.match(re_g);
+		var categoryItemStringList = lastRoute.match(reg);
 		for(var i = 0; i < categoryItemStringList.length; i++) {
-			var matches = categoryItemStringList[i].match(re_i);
+			var matches = categoryItemStringList[i].match(rei);
 			if(matches.length > 2)
 				this.addItemToRoute(matches[1], matches[2]);
 		}
