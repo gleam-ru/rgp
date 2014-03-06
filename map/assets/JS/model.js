@@ -60,7 +60,8 @@ var Stuff = function() {
 *********/
 
 var Route = function() {
-	this = [[]]; // list of category-items [categoryName, itemName]
+	this.items = [[]]; // list of category-items [categoryName, itemName]
+	return this;
 }
 Route.prototype.addItem = function(categoryName, itemName) {
 	if(!categoryName || !item) return;

@@ -825,7 +825,7 @@ var Controller = function(model) {
 	/***
 	* Прокладывание маршрутов
 	**/
-	$.cookie('cookie_name', 'cookie_value', {
+	$.cookie('cookie_name', new Route(), {
 		path: '/',
 	});
 
@@ -923,6 +923,6 @@ Controller.prototype.setItemsState = function(categoryItemList, state) {
 *** MANIPULATING WITH USER DATA
 ***
 *********/
-Controller.prototype.addItemToRoute = function(categoryName, itemName) {
+// Controller.prototype.addItemToRoute = function(categoryName, itemName) {
 
-}
+// }
