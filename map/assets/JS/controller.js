@@ -820,6 +820,15 @@ var Controller = function(model) {
 				]
 			}));
 
+
+
+	/***
+	* Прокладывание маршрутов
+	**/
+	$.cookie('cookie_name', 'cookie_value', {
+		path: '/',
+	});
+
 	return this;
 }
 
@@ -905,4 +914,15 @@ Controller.prototype.setItemsState = function(categoryItemList, state) {
 		}
 		currentItem.active = state;
 	}
+}
+
+
+
+/********
+***
+*** MANIPULATING WITH USER DATA
+***
+*********/
+Controller.prototype.addItemToRoute = function(categoryName, itemName) {
+
 }

@@ -16,6 +16,8 @@ button {
 	font-weight: bold;
 }
 
+.highslide-credits {display: none !important;}
+
 #mainHeader {
 	position: fixed;
 	width: 500px;
@@ -60,10 +62,18 @@ button {
 /**
 * PAGE:mainpage;
 */
-#fullReviewWrapper {
-	height: calc(100% - 400px);
-	overflow: auto;
+.fullReviewWrapper h1 {
+	padding-right: 250px;
+	text-align: left;
+}
+.fullReviewWrapper {
+	/*height: calc(100% - 400px);*/
+	/*overflow: auto;*/
 	position: relative;
+}
+.fullReviewWrapper .content {
+	max-height: 500px;
+	overflow: auto;
 }
 
 #fullReview {
@@ -74,7 +84,6 @@ button {
 	left: calc(50% - 365px);
 	z-index: 30;
 	padding: 10px;
-	height: calc(100% - 400px);
 	background: rgba(255, 255, 255, 0.8);
 	line-height: 150%;
 	text-align: justify;
@@ -98,7 +107,7 @@ button {
 	list-style: none;
 
 	position: absolute;
-	top: -50px;
+	top: -80px;
 	right: 50px;
 	background: #fff;
 	box-shadow: 0 0 5px 0px rgba(0,0,0,0.7);
@@ -171,7 +180,7 @@ button {
 	list-style: none;
 	line-height: 30px;
 	vertical-align: middle;
-	color: #888;
+	color: #555;
 }
 
 .categoryName {
@@ -223,9 +232,9 @@ button {
 #mainMenu {
 	position: absolute;
 	top: 0px;
-	width: 500px;
+	width: 400px;
 	padding: 0px 0px;
-	left: calc(50% - 250px);
+	left: calc(50% - 200px);
 	z-index: 100;
 	background: #fff;
 	border-radius: 0 0 5px 5px;

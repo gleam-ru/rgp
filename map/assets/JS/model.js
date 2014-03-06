@@ -47,3 +47,22 @@ var Stuff = function() {
 
 	return this;
 }
+
+
+
+
+
+/********
+***
+*** ROUTE FUNCTIONALITY
+*** (temp cookie data)
+***
+*********/
+
+var Route = function() {
+	this = [[]]; // list of category-items [categoryName, itemName]
+}
+Route.prototype.addItem = function(categoryName, itemName) {
+	if(!categoryName || !item) return;
+	this.items.push([categoryName, itemName]);
+}

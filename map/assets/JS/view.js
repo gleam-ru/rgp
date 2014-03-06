@@ -24,6 +24,8 @@ var View = function(model, controller) {
 	// page with review of item
 	this.fullReviewWrapper = "#fullReview";
 
+	this.routeWrapperId = "routeWrapper";
+
 	// youtube-frame
 	this.ytLayer = "#ytLayer";
 		this.cinemaShadow = "#shadow";
@@ -85,12 +87,13 @@ var View = function(model, controller) {
 						</a>\
 					{{/images}}\
 				{{/if}}\
+				<h1>\
+					Категория: {{category}}\
+				</h1>\
+				<h1>\
+					Объект: {{name}}\
+				</h1>\
 				<div class='content'>\
-					<h1>\
-						Категория: <span id='categoryName'>{{category}}</span>\
-						<br />\
-						Объект: <span id='itemName'>{{name}}</span>\
-					</h1>\
 					{{{review}}}\
 				</div>\
 				<button class='addItemOnMap' data-category='{{category}}' data-item='{{name}}'>\
@@ -104,6 +107,15 @@ var View = function(model, controller) {
 	");
 	$(this.fullReviewWrapper).html(this.fullReviewTemplate(this.getItemData()));
 
+	// route template
+	if(!$('#'+this.routeWrapperId).length) body.append("<div id='"+this.routeWrapperId+"'></div>");
+	this.routeTemplate = Handlebars.compile("\
+		<div class='closer' data-closer-item='"+this.routeWrapperId+"'></div>\
+		<h1><nobr>Объекты, отмеченные для посещения:</nobr></h1>\
+		<div class='"+this.routeWrapperId+"Wrapper'>\
+		</div>\
+	");
+
 
 
 	// inits yandex-map
@@ -114,9 +126,9 @@ var View = function(model, controller) {
 		zoom: 12,
 		behaviors: ["default", "scrollZoom"]
 	});
-	this.map.controls
-		.add('zoomControl')
-		.add('typeSelector');
+	// this.map.controls
+		// .add('zoomControl')
+		// .add('typeSelector');
 
 	this.setUpClickEvents();
 	this.update();
@@ -139,13 +151,6 @@ var View = function(model, controller) {
 View.prototype.setUpClickEvents = function() {
 	var self = this;
 
-	// main-menu
-	$("#categories").click(function() {
-		self.hideFullReview();
-    	$(this).toggleClass("shown");
-		$("#tree").toggle('fast', function() {});
-	});
-
 	$('body').click(function() {
 		if(!self.legalBodyClick) {
 			// self.hideFullReview();
@@ -157,6 +162,13 @@ View.prototype.setUpClickEvents = function() {
 		var closerItem = $(this).data('closer-item');
 		if(closerItem == self.categoriesId)
 			$('#categories').click();
+	});
+
+	// main-menu
+	$("#categories").click(function() {
+		self.hideFullReview();
+    	$(this).toggleClass("shown");
+		$("#tree").toggle('fast', function() {});
 	});
 
 	// show full review on click on item name in list
@@ -254,10 +266,11 @@ View.prototype.update = function() {
 						preset: currentCategory.icon
 					}
 				);
+				// FUNC: placemark clicked
 				placemark.events.add('click', placemarkClicked, {item:currentItem, category:currentCategory})
 				function placemarkClicked() {
 				    self.legalBodyClick = true;
-				    self.showFullReview(this.category, this.item);
+				    self.showFullReview(this.category.name, this.item.name);
 				}
 				this.map.geoObjects.add(placemark);
 			}
@@ -273,16 +286,14 @@ View.prototype.showFullReview = function(categoryName, itemName) {
 	fullReview.html(this.fullReviewTemplate(this.getItemData(categoryName, itemName)));
 	fullReview.css("display", "block");
 
+	// FUNC: stop propogation
+	fullReview.unbind().click(function(event) {event.stopPropagation();});
 	// FUNC: full review closer
-	fullReview.find('.closer').unbind().click(function() {
-		self.hideFullReview();
-	});
+	fullReview.find('.closer').unbind().click(function() {self.hideFullReview();});
 	// FUNC: full review buttons
 	fullReview.find('.addItemOnMap, .removeItemFromMap').unbind().bind('click', {'self': this}, this.fullReviewButtonClicked);
 	// FUNC: full review links
 	fullReview.find('.content a').unbind().bind('click', {'self': this}, this.reviewLinkClicked);
-	// FUNC: stop propogation
-	fullReview.unbind().click(function(event) {event.stopPropagation();});
 }
 
 // if youtube link - createCinemaView(), else - goto href
