@@ -4,10 +4,10 @@ $(document).ready(function() {
 	ymaps.ready(function() {
 		// model
 		window.sights = new Sights();
-		window.route = new Route();
+		window.routeModel = new Route();
 		// fills model in constructor
-		window.controller = new Controller(sights, route);
+		window.controller = new Controller(sights, routeModel);
 		// on creation needed filled model
-		window.sightsView = new View(sights, route, controller);
+		window.sightsView = new View(sights, routeModel, controller);
 	});
 });
