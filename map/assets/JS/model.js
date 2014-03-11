@@ -58,6 +58,12 @@ var Sights = function() {
 
 var Route = function() {
 	this.items = []; // list of category-items [categoryName, itemName]
+	/* test data:
+	this.items.push(['Гостиницы', 'Гостинница Дубна корпус 3']);
+	this.items.push(['Гостиницы', 'Парк Отель']);
+	this.items.push(['Гостиницы', 'Резидент Отель']);
+	this.items.push(['Развлечения', '\'Антикафе\'']);
+	//*/
 	return this;
 }
 Route.prototype.toString = function() {

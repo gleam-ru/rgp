@@ -606,19 +606,45 @@ View.prototype.getRouteData = function() {
 
 View.prototype.createRoute = function() {
 	var self = this;
-	var points = [];
+	var ymapsPoints = []; //[{}]
+
+	var itemsToDisable = [];
+	for(var key in self.model.categories) if(self.model.categories.hasOwnProperty(key)) {
+		var currentCategory = self.model.categories[key];
+		for (var i = 0; i < currentCategory.items.length; i++) {
+			var currentItem = currentCategory.items[i];
+			if(currentItem.active) 
+				itemsToDisable.push([currentCategory.name, currentItem.name]);
+		}
+	}
+	self.controller.setItemsState(itemsToDisable, false);
+	// TODO: КОСТЫЛЬ!!! переделать составление #tree "на лету" по шаблону
+	$('#'+self.categoriesId).find('input').prop('checked', false);
+
+
 	var routeItems = $('.item');
 	// составляем список "посещаемых" объектов
+	var itemsToEnable = []; //items in route
 	for(var i = 0; i < routeItems.length; i++) {
 		var currentItem = $(routeItems[i]);
-		points.push(currentItem.data('pos'));
+		ymapsPoints.push({
+			type: 'wayPoint',
+			point: currentItem.data('pos')
+		});
+		itemsToEnable.push([currentItem.data('category'), currentItem.data('item')]);
 	}
+	self.controller.setItemsState(itemsToEnable, true);
+	// TODO: смотри выше... показать в дереве, что айтемы "активны"
+	self.update();
 
-	ymaps.route(points, {
+	ymaps.route(ymapsPoints, {
 		mapStateAutoApply: true // автоматически позиционировать карту
 	}).then(function (router) {
 		route = router;
-		self.map.geoObjects.add(route);
+		var paths = route.getPaths();
+		paths.options.set('preset', 'router#route');
+		self.map.geoObjects.add(paths);
+		// self.map.geoObjects.add(route);
 	}, function (error) {
 		console.error("Возникла ошибка: " + error.message);
 	});
