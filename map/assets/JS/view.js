@@ -125,9 +125,9 @@ var View = function(sightsModel, routeModel, controller) {
 			<div class='"+this.processRouteId+"Wrapper'>\
 				<div class='routeItems'>\
 					{{#items}}\
-						<div class='item'>\
+						<div class='item' data-category='{{categoryName}}' data-item='{{itemName}}' data-pos='{{itemPos}}'>\
 							<div class='draggZone'></div>\
-							<div class='positionName' data-category='{{categoryName}}' data-item='{{itemName}}'>\
+							<div class='positionName'>\
 								{{categoryName}}: {{itemName}}\
 							</div>\
 							<div class='positionButtons'>\
@@ -374,13 +374,13 @@ View.prototype.showRoute = function() {
 	route.find('.closer').unbind().click(function() {self.hideRoute();});
 	// FUNC: view item from route processing window
 	route.find('.positionName').unbind().click(function() {
-		var categoryName = $(this).data('category');
-		var itemName = $(this).data('item');
+		var categoryName = $(this).parent().data('category');
+		var itemName = $(this).parent().data('item');
 		self.showFullReview(categoryName, itemName);
 	});
 	// FUNC: processing route event
 	route.find('#routeComplete').unbind().click(function() {
-		console.log("Проложить маршрут");
+		self.createRoute();
 	});
 	// FUNC:
 	route.find('.positionDelete').unbind().click(function() {
@@ -564,16 +564,62 @@ View.prototype.getRouteData = function() {
 	var data = {
 		items: [{
 			categoryName: "",
-			itemName: ""
+			itemName: "",
+			itemPos: []
 		}]
 	}
 	data = {};
 	data.items = [];
 	for(var i = 0; i < this.route.items.length; i++) {
+		var categoryName = this.route.items[i][0];
+		var itemName = this.route.items[i][1];
+		var itemPos = [0, 0];
+
+		var currentCategory = this.model.categories[categoryName];
+		for(var ii = 0; ii < currentCategory.items.length; ii++) {
+			var currentItem = currentCategory.items[ii];
+			if(currentItem.name == itemName) {
+				// TODO: model: pos{} -> pos[]
+				itemPos = [currentItem.pos.x, currentItem.pos.y];
+				break;
+			}
+		}
+
 		data.items.push({
-			categoryName: this.route.items[i][0],
-			itemName: this.route.items[i][1]
+			categoryName: categoryName,
+			itemName: itemName,
+			itemPos: itemPos
 		});
 	}
 	return data;
+}
+
+
+
+
+
+
+
+
+
+
+
+View.prototype.createRoute = function() {
+	var self = this;
+	var points = [];
+	var routeItems = $('.item');
+	// составляем список "посещаемых" объектов
+	for(var i = 0; i < routeItems.length; i++) {
+		var currentItem = $(routeItems[i]);
+		points.push(currentItem.data('pos'));
+	}
+
+	ymaps.route(points, {
+		mapStateAutoApply: true // автоматически позиционировать карту
+	}).then(function (router) {
+		route = router;
+		self.map.geoObjects.add(route);
+	}, function (error) {
+		console.error("Возникла ошибка: " + error.message);
+	});
 }
