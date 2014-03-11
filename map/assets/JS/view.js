@@ -126,16 +126,11 @@ var View = function(sightsModel, routeModel, controller) {
 				<div class='routeItems'>\
 					{{#items}}\
 						<div class='item'>\
+							<div class='draggZone'></div>\
 							<div class='positionName' data-category='{{categoryName}}' data-item='{{itemName}}'>\
 								{{categoryName}}: {{itemName}}\
 							</div>\
 							<div class='positionButtons'>\
-								<button class='positionMoveDown' data-category='{{categoryName}}' data-item='{{itemName}}'>\
-									Вниз\
-								</button>\
-								<button class='positionMoveUp' data-category='{{categoryName}}' data-item='{{itemName}}'>\
-									Вверх\
-								</button>\
 								<button class='positionDelete' data-category='{{categoryName}}' data-item='{{itemName}}'>\
 									Удалить\
 								</button>\
@@ -354,6 +349,27 @@ View.prototype.showRoute = function() {
 	var route = $('#'+this.processRouteId);
 	route.html(this.routeTemplate(this.getRouteData()));
 	route.show('normal');
+
+	// INIT: dragger
+	var dragger = route.find('.routeItems');
+	dragger.sortable({
+		containment: route.find(".routeItems"),
+		tolerance: "pointer",
+		scrollSpeed: 10,
+		stop: function(event, ui) {
+			// mouse up
+			self.updateRoute();
+		}
+	});
+	dragger.sortable('disable');
+	$('.draggZone').unbind()
+		.on('mouseenter', function() {
+			dragger.sortable('enable');
+		})
+		.on('mouseout', function() {
+			dragger.sortable('disable');
+		});
+
 	// FUNC: route closer
 	route.find('.closer').unbind().click(function() {self.hideRoute();});
 	// FUNC: view item from route processing window
@@ -373,14 +389,6 @@ View.prototype.showRoute = function() {
 		self.controller.removeItemFromRoute(categoryName, itemName);
 		self.updateRoutePointsCounter();
 		self.showRoute();
-	});
-	// FUNC:
-	route.find('.positionMoveUp').unbind().click(function() {
-		console.log("Переместить пункт маршрута вверх");
-	});
-	// FUNC:
-	route.find('.positionMoveDown').unbind().click(function() {
-		console.log("Переместить пункт маршрута вниз");
 	});
 }
 
@@ -470,6 +478,18 @@ View.prototype.fullReviewButtonClicked = function(event) {
 
 View.prototype.updateRoutePointsCounter = function() {
 	$('#'+this.routePointsCounterId).html('('+this.route.items.length+')')
+}
+
+View.prototype.updateRoute = function() {
+	var newRoute = [];
+	var items = $('.item');
+	for (var i = 0; i < items.length; i++) {
+		var currentItem = $(items[i]).find('.positionName');
+		var category = currentItem.data('category');
+		var item = currentItem.data('item');
+		newRoute.push([category, item]);
+	}
+	this.controller.setUpNewRoute(newRoute);
 }
 
 

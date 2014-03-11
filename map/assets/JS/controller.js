@@ -926,6 +926,11 @@ Controller.prototype.setItemsState = function(categoryItemList, state) {
 *********/
 Controller.prototype.updateCookies = function() {$.cookie(this.cookieName, this.route.toString());}
 
+Controller.prototype.setUpNewRoute = function(route) {
+	this.route.items = route;
+	this.updateCookies();
+}
+
 Controller.prototype.addItemToRoute = function(categoryName, itemName) {
 	if(!categoryName || !categoryName) return false;
 

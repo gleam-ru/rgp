@@ -86,7 +86,8 @@ h1 {
 	display: none;
 	position: absolute;
 	top: 80px;
-	width: 700px;
+	min-width: 400px;
+	width: calc(80% - 200px);
 	right: 10%;
 	z-index: 30;
 	padding: 10px;
@@ -135,11 +136,14 @@ h1 {
 
 
 #processRoute {
+	min-width: 400px;
+	width: calc(80% - 200px);
 	display: none;
 	position: absolute;
 	top: 80px;
-	width: 700px;
 	right: 10%;
+	height: 100%;
+	max-height: calc(100% - 150px);
 	z-index: 25;
 	padding: 10px;
 	background: rgba(255, 255, 255, 0.8);
@@ -155,6 +159,10 @@ h1 {
 #processRoute .item {
 	border-bottom: dotted 1px #ccc;
 	min-height: 44px;
+	line-height: 44px;
+	vertical-align: middle;
+	display: table;
+	width: 100%;
 }
 #processRoute .item:first-child {
 	border-top: dotted 1px #ccc;
@@ -162,15 +170,35 @@ h1 {
 #processRoute .positionName {
 	cursor: pointer;
 	font-size: 20px;
-	display: inline-block;
-	width: 60%;
+	line-height: 130%;
+	display: table-cell;
+	padding: 0px 30px 0px 10px;
+	vertical-align: middle;
 }
 #processRoute .positionButtons {
-	float: right;
+	display: table-cell;
+	vertical-align: middle;
 }
 #processRoute #positionDelete {margin-right: 30px;}
 #processRoute button {
 	display: inline-block;
+}
+#processRoute .processRouteWrapper {
+	height: 100%;
+	max-height: calc(100% - 44px);
+	overflow: hidden;
+}
+#processRoute .routeItems {
+	overflow: auto;
+	height: calc(100% - 96px);
+}
+#processRoute .draggZone {
+	display: table-cell;
+	width: 15px;
+	/*background: #ccc;*/
+	border: solid 5px #fff;
+	background: url('images/draggZone.png');
+	cursor: move;
 }
 
 
@@ -302,7 +330,7 @@ h1 {
 	width: 32px; height: 32px;
 	background: url('images/closer.png');
 	background-position: 50% 50%;
-	opacity: 0.7;
+	opacity: 0.9;
 	cursor: pointer;
 }
 
