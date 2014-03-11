@@ -381,6 +381,7 @@ View.prototype.showRoute = function() {
 	// FUNC: processing route event
 	route.find('#routeComplete').unbind().click(function() {
 		self.createRoute();
+		self.hideRoute();
 	});
 	// FUNC:
 	route.find('.positionDelete').unbind().click(function() {
