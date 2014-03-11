@@ -484,7 +484,7 @@ View.prototype.updateRoute = function() {
 	var newRoute = [];
 	var items = $('.item');
 	for (var i = 0; i < items.length; i++) {
-		var currentItem = $(items[i]).find('.positionName');
+		var currentItem = $(items[i]);
 		var category = currentItem.data('category');
 		var item = currentItem.data('item');
 		newRoute.push([category, item]);
