@@ -58,32 +58,6 @@ var Sights = function() {
 
 var Route = function() {
 	this.items = []; // list of category-items [categoryName, itemName]
-
-	this.items.push(['Гостиницы', 'Гостинница Дубна корпус 3']);
-	this.items.push(['Гостиницы', 'Парк Отель']);
-	this.items.push(['Гостиницы', 'Резидент Отель']);
-	this.items.push(['Гостиницы', 'Гостинница Дубна корпус 1']);
-	this.items.push(['Музеи', 'Музей истории науки и техники ОИЯИ (Объединенного института ядерных исследований)']);
-	this.items.push(['Музеи', 'Музей археологии и краеведения']);
-	this.items.push(['Музеи', 'Музей замка']);
-	this.items.push(['Развлечения', 'ТЦ МАЯК']);
-	this.items.push(['Развлечения', 'Патриот']);
-	this.items.push(['Развлечения', 'Три Кия']);
-	this.items.push(['Развлечения', 'ЧайнаТаун']);
-	this.items.push(['Развлечения', 'Антикафе']);
-	this.items.push(['Гостиницы', 'Гостинница Дубна корпус 3']);
-	this.items.push(['Гостиницы', 'Парк Отель']);
-	this.items.push(['Гостиницы', 'Резидент Отель']);
-	this.items.push(['Гостиницы', 'Гостинница Дубна корпус 1']);
-	this.items.push(['Музеи', 'Музей истории науки и техники ОИЯИ (Объединенного института ядерных исследований)']);
-	this.items.push(['Музеи', 'Музей археологии и краеведения']);
-	this.items.push(['Музеи', 'Музей замка']);
-	this.items.push(['Развлечения', 'ТЦ МАЯК']);
-	this.items.push(['Развлечения', 'Патриот']);
-	this.items.push(['Развлечения', 'Три Кия']);
-	this.items.push(['Развлечения', 'ЧайнаТаун']);
-	this.items.push(['Развлечения', 'Антикафе']);
-
 	return this;
 }
 Route.prototype.toString = function() {
