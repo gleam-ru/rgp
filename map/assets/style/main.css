@@ -87,7 +87,7 @@ h1 {
 	position: absolute;
 	top: 80px;
 	min-width: 400px;
-	width: calc(80% - 200px);
+	width: calc(80% - 400px);
 	right: 10%;
 	z-index: 30;
 	padding: 10px;
@@ -201,8 +201,6 @@ h1 {
 	cursor: move;
 }
 
-
-/*#sights {display: none;}*/
 
 
 
