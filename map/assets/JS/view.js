@@ -348,7 +348,10 @@ View.prototype.showRoute = function() {
 	var self = this;
 	var route = $('#'+this.processRouteId);
 	route.html(this.routeTemplate(this.getRouteData()));
-	route.show('normal');
+	// TODO: КОСТЫЛИ!!! (не знаю как реализовать пересчет высоты css)
+	route.show('normal', function() {
+		$('#processRoute').css('height', ($('.routeItems .item').length > 5) ? '100%' : '');
+	});
 
 	// INIT: dragger
 	var dragger = route.find('.routeItems');
